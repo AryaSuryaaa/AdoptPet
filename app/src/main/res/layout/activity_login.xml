@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.login.LoginActivity">
+
+    <ImageView
+        android:id="@+id/iv_logo_app"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginHorizontal="24dp"
+        android:src="@drawable/logo_pet"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/logo_app"/>
+
+    <TextView
+        android:id="@+id/name_app"
+        style="@style/TextAppearance.AppCompat.Title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/pet_adoption"
+        app:layout_constraintEnd_toEndOf="@id/iv_logo_app"
+        app:layout_constraintStart_toStartOf="@id/iv_logo_app"
+        app:layout_constraintTop_toBottomOf="@id/iv_logo_app" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/ti_username_login"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:hint="@string/username"
+        app:endIconMode="clear_text"
+        app:layout_constraintEnd_toEndOf="@id/iv_logo_app"
+        app:layout_constraintStart_toStartOf="@id/iv_logo_app"
+        app:layout_constraintTop_toBottomOf="@id/name_app">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/ti_password_login"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:hint="@string/password"
+        app:endIconMode="password_toggle"
+        app:layout_constraintEnd_toEndOf="@id/ti_username_login"
+        app:layout_constraintStart_toStartOf="@id/ti_username_login"
+        app:layout_constraintTop_toBottomOf="@id/ti_username_login">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/tv_forgot_password"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="end"
+        android:text="@string/forgot_password"
+        android:textColor="?android:attr/colorPrimary"
+        app:layout_constraintEnd_toEndOf="@id/ti_password_login"
+        app:layout_constraintStart_toStartOf="@id/ti_password_login"
+        app:layout_constraintTop_toBottomOf="@id/ti_password_login" />
+
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/log_in"
+        app:layout_constraintEnd_toEndOf="@id/ti_username_login"
+        app:layout_constraintStart_toStartOf="@id/ti_username_login"
+        app:layout_constraintTop_toBottomOf="@id/tv_forgot_password"
+        app:shapeAppearance="?attr/shapeAppearanceSmallComponent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="16dp"
+        android:background="?attr/colorTertiary"
+        app:layout_constraintBottom_toTopOf="@id/tv_regis_left"/>
+
+    <TextView
+        android:id="@+id/tv_regis_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="@string/don_t_have_an_account"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tv_regis_right"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@id/ti_username_login" />
+
+    <TextView
+        android:id="@+id/tv_regis_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/sign_up"
+        android:textColor="?attr/colorPrimary"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintBottom_toBottomOf="@id/tv_regis_left"
+        app:layout_constraintEnd_toEndOf="@id/ti_username_login"
+        app:layout_constraintStart_toEndOf="@id/tv_regis_left" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="109dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="147dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_end="111dp"
+        android:clickable="true"
+        android:focusable="true" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

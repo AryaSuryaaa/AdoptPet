@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">AdoptPet</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="pet_adoption">Pet Adoption</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="log_in">Log In</string>
+    <string name="don_t_have_an_account">Don\'t have an account?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="logo_app">logo app</string>
+    <string name="ca_sub">Fill the form for your new account</string>
+    <string name="create_account">Create account</string>
+    <string name="email">Email</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="login">Login</string>
+    <string name="do_you_already_have_an_account">do you already have an account?</string>
+    <string name="register_account">Register Account</string>
+</resources>
