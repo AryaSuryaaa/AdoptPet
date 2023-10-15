@@ -4,32 +4,15 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.lifecycleScope
-import com.aryasurya.adoptpet.R
-import com.aryasurya.adoptpet.data.pref.dataStore
 import com.aryasurya.adoptpet.databinding.ActivityLoginBinding
-import com.aryasurya.adoptpet.databinding.ActivityRegisterBinding
 import com.aryasurya.adoptpet.ui.register.RegisterActivity
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
-
-import androidx.lifecycle.viewModelScope
-import com.aryasurya.adoptpet.data.pref.UserModel
-import com.aryasurya.adoptpet.data.pref.UserPreference
 import com.aryasurya.adoptpet.ui.ViewModelFactory
-import com.aryasurya.adoptpet.ui.register.RegisterViewModel
-import kotlinx.coroutines.launch
+import com.aryasurya.adoptpet.ui.main.MainActivity
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
-
-    private val userPreference: UserPreference by lazy {
-        UserPreference.getInstance(dataStore)
-    }
 
     private val viewModel by viewModels<LoginViewModel> {
         ViewModelFactory.getInstance(this)
@@ -46,21 +29,22 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.btnLogin.setOnClickListener {
+            val username = binding.tiUsernameLogin.editText?.text.toString()
+            val password = binding.tiPasswordLogin.editText?.text.toString()
 
-            val usernameToRetrieve = "surya" // Ganti dengan username yang ingin Anda ambil
-            viewModel.observeDataUser(usernameToRetrieve)
+            // Memeriksa apakah username dan password sesuai dengan yang tersimpan di DataStore
+            viewModel.validateCredentials(username, password)
+        }
 
-            viewModel.userData.observe(this) { user ->
-                if (user != null) {
-                    // Data ditemukan, gunakan data pengguna sesuai kebutuhan
-                    Log.d(
-                        "DataStore" ,
-                        "Username: ${user.username}, Email: ${user.email}, Password: ${user.password}"
-                    )
-                } else {
-                    // Data tidak ditemukan
-                    Log.d("DataStore" , "Data tidak ditemukan untuk username: $usernameToRetrieve")
-                }
+        viewModel.userData.observe(this) { user ->
+            Log.d("DataStore" , "Username: ${user?.username}, Email: ${user?.email}, Password: ${user?.password}" )
+            if (user != null) {
+                // Data pengguna ditemukan, izinkan pengguna untuk masuk
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+            } else {
+                // Data pengguna tidak ditemukan atau username/password salah
+                Toast.makeText(this, "Username/password is incorrect", Toast.LENGTH_SHORT).show()
             }
         }
     }

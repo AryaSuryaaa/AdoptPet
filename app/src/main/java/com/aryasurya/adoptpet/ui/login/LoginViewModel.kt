@@ -14,12 +14,18 @@ class LoginViewModel(private val repository: UserRepository): ViewModel() {
     val userData: LiveData<UserModel?>
         get() = _userData
 
-    fun observeDataUser(username: String) {
+    fun validateCredentials(username: String, password: String) {
         viewModelScope.launch {
-            val user = repository.observeUserData(username)
-            _userData.postValue(user)
+            val user = repository.observeUserData(username) // atau repository.observeUsers(username)
+
+            if (user != null && user.password == password) {
+                // Validasi berhasil, data pengguna ditemukan dan password cocok
+                _userData.postValue(user)
+            } else {
+                // Validasi gagal, password salah atau data pengguna tidak ditemukan
+                _userData.postValue(null)
+            }
         }
     }
-
 
 }
