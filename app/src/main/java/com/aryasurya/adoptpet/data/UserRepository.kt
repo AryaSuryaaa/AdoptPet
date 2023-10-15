@@ -6,8 +6,16 @@ import com.aryasurya.adoptpet.data.pref.UserPreference
 class UserRepository private constructor(
     private val userPreference: UserPreference
 ) {
-    suspend fun saveUser(user: UserModel) {
-        userPreference.saveUser(user)
+//    suspend fun saveUser(user: UserModel) {
+//        userPreference.saveUser(user)
+//    }
+
+    suspend fun saveUser(users: List<UserModel>) {
+        userPreference.saveUsers(users)
+    }
+
+    suspend fun observeUserData(username: String): UserModel? {
+        return userPreference.observeUsers(username)
     }
 
 

@@ -179,6 +179,6 @@ class RegisterActivity : AppCompatActivity() {
         return password.length >= 8 // Contoh: Password harus memiliki panjang minimal 6 karakter
     }
     private fun setupUser(username: String, email: String, password: String) {
-        viewModel.saveUser(UserModel(username, email, password, "sample_token"))
+        viewModel.saveUser(listOf(UserModel(username, email, password)))
     }
 }

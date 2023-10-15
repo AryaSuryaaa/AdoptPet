@@ -26,12 +26,13 @@ import kotlinx.coroutines.launch
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
-    private val viewModel by viewModels<LoginViewModel> {
-        ViewModelFactory.getInstance(this)
-    }
 
     private val userPreference: UserPreference by lazy {
         UserPreference.getInstance(dataStore)
+    }
+
+    private val viewModel by viewModels<LoginViewModel> {
+        ViewModelFactory.getInstance(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,18 +46,20 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.btnLogin.setOnClickListener {
-            val userDataFlow = userPreference.observeUserData()
 
-            lifecycleScope.launch {
-                userDataFlow.collect { userData ->
-                    if (userData != null) {
-                        // Data pengguna sudah tersimpan
-                        // Lakukan sesuatu dengan data pengguna jika diperlukan
-                        Log.d("DataStore" , "User data found: ${userData.username}, ${userData.email}, ${userData.password}")
-                    } else {
-                        // Data pengguna belum tersimpan
-                        Log.d("DataStore" , "User data not found")
-                    }
+            val usernameToRetrieve = "surya" // Ganti dengan username yang ingin Anda ambil
+            viewModel.observeDataUser(usernameToRetrieve)
+
+            viewModel.userData.observe(this) { user ->
+                if (user != null) {
+                    // Data ditemukan, gunakan data pengguna sesuai kebutuhan
+                    Log.d(
+                        "DataStore" ,
+                        "Username: ${user.username}, Email: ${user.email}, Password: ${user.password}"
+                    )
+                } else {
+                    // Data tidak ditemukan
+                    Log.d("DataStore" , "Data tidak ditemukan untuk username: $usernameToRetrieve")
                 }
             }
         }
