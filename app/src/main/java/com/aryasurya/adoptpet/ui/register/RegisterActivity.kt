@@ -1,5 +1,6 @@
 package com.aryasurya.adoptpet.ui.register
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -10,8 +11,10 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.aryasurya.adoptpet.R
+import com.aryasurya.adoptpet.data.pref.UserModel
 import com.aryasurya.adoptpet.databinding.ActivityRegisterBinding
 import com.aryasurya.adoptpet.ui.ViewModelFactory
+import com.aryasurya.adoptpet.ui.login.LoginActivity
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -39,6 +42,11 @@ class RegisterActivity : AppCompatActivity() {
             onBackPressed()
         }
 
+        binding.tvLoginRight.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
+
 //        VALIDASDI EMAIL
         validEmail()
 //        PASSWORD ERROR
@@ -59,6 +67,7 @@ class RegisterActivity : AppCompatActivity() {
             val inputPassword = password.editText?.text.toString()
 
             if (isUsernameValid(inputUsername) && isEmailValid(inputEmail) && isPasswordValid(inputPassword)) {
+                setupUser(inputUsername, inputEmail, inputPassword)
                 Toast.makeText(this, "Registration successful", Toast.LENGTH_SHORT).show()
                 finish()
             }
@@ -169,7 +178,7 @@ class RegisterActivity : AppCompatActivity() {
     private fun isPasswordValid(password: String): Boolean {
         return password.length >= 8 // Contoh: Password harus memiliki panjang minimal 6 karakter
     }
-    private fun setupUser() {
-        binding.btnRegister.setOnClickListener {  }
+    private fun setupUser(username: String, email: String, password: String) {
+        viewModel.saveUser(UserModel(username, email, password, "sample_token"))
     }
 }

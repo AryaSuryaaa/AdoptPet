@@ -119,29 +119,29 @@
         android:layout_height="1dp"
         android:layout_marginBottom="16dp"
         android:background="?attr/colorTertiary"
-        app:layout_constraintBottom_toTopOf="@id/tv_regis_left"/>
+        app:layout_constraintBottom_toTopOf="@id/tv_login_left"/>
 
     <TextView
-        android:id="@+id/tv_regis_left"
+        android:id="@+id/tv_login_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:text="@string/do_you_already_have_an_account"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/tv_regis_right"
+        app:layout_constraintEnd_toStartOf="@id/tv_login_right"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="@id/ti_username_register" />
 
     <TextView
-        android:id="@+id/tv_regis_right"
+        android:id="@+id/tv_login_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/login"
         android:textColor="?attr/colorPrimary"
         app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintBottom_toBottomOf="@id/tv_regis_left"
+        app:layout_constraintBottom_toBottomOf="@id/tv_login_left"
         app:layout_constraintEnd_toEndOf="@id/ti_username_register"
-        app:layout_constraintStart_toEndOf="@id/tv_regis_left" />
+        app:layout_constraintStart_toEndOf="@id/tv_login_left" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
