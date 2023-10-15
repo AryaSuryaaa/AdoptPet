@@ -1,4 +1,4 @@
-package com.aryasurya.adoptpet.ui.register
+package com.aryasurya.adoptpet.ui.customview
 
 import android.content.Context
 import android.content.res.ColorStateList

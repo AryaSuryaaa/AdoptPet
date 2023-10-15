@@ -1,7 +1,8 @@
-package com.aryasurya.adoptpet
+package com.aryasurya.adoptpet.ui.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.aryasurya.adoptpet.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
