@@ -1,6 +1,7 @@
 package com.aryasurya.adoptpet.ui.register
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.text.Editable
 import android.text.InputType
 import android.text.TextWatcher
@@ -9,6 +10,7 @@ import android.util.TypedValue
 import androidx.appcompat.R.*
 import com.aryasurya.adoptpet.R
 import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 
 
 class MyEditText : TextInputEditText {
@@ -33,10 +35,14 @@ class MyEditText : TextInputEditText {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                error = if (p0 != null && p0.length <= 8) {
-                    context.getString(R.string.eror_text)
+                val textInputLayout = parent.parent as TextInputLayout
+                if (p0 != null && p0.length <= 7) {
+                    textInputLayout.error = context.getString(R.string.eror_text)
+                    textInputLayout.errorIconDrawable = null // Hapus ikon kesalahan jika diperlukan
+                    val errorColor = ColorStateList.valueOf(typedValue.data)
+                    textInputLayout.boxStrokeErrorColor = errorColor // Atur warna bingkai kesalahan
                 } else {
-                    null
+                    textInputLayout.error = null // Hapus pesan kesalahan jika teks valid
                 }
             }
 
