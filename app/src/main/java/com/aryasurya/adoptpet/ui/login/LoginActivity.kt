@@ -34,12 +34,14 @@ class LoginActivity : AppCompatActivity() {
 
             // Memeriksa apakah username dan password sesuai dengan yang tersimpan di DataStore
             viewModel.validateCredentials(username, password)
+
         }
 
         viewModel.userData.observe(this) { user ->
             Log.d("DataStore" , "Username: ${user?.username}, Email: ${user?.email}, Password: ${user?.password}" )
             if (user != null) {
                 // Data pengguna ditemukan, izinkan pengguna untuk masuk
+                viewModel.saveSession(user)
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
             } else {

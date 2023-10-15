@@ -2,6 +2,7 @@ package com.aryasurya.adoptpet.data
 
 import com.aryasurya.adoptpet.data.pref.UserModel
 import com.aryasurya.adoptpet.data.pref.UserPreference
+import kotlinx.coroutines.flow.Flow
 
 class UserRepository private constructor(
     private val userPreference: UserPreference
@@ -18,6 +19,17 @@ class UserRepository private constructor(
         return userPreference.observeUsers(username)
     }
 
+    suspend fun logout(user: UserModel) {
+        userPreference.logout(user)
+    }
+
+    suspend fun saveSession(user: UserModel) {
+        userPreference.saveSession(user)
+    }
+
+    fun getSession(): Flow<UserModel> {
+        return userPreference.getSession()
+    }
 
 
     companion object {

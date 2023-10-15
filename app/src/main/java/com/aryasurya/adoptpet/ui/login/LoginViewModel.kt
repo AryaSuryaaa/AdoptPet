@@ -20,11 +20,18 @@ class LoginViewModel(private val repository: UserRepository): ViewModel() {
 
             if (user != null && user.password == password) {
                 // Validasi berhasil, data pengguna ditemukan dan password cocok
-                _userData.postValue(user)
+                val userWithLogin = user.copy(isLogin = true)
+                _userData.postValue(userWithLogin)
             } else {
                 // Validasi gagal, password salah atau data pengguna tidak ditemukan
                 _userData.postValue(null)
             }
+        }
+    }
+
+    fun saveSession(user: UserModel) {
+        viewModelScope.launch {
+            repository.saveSession(user)
         }
     }
 

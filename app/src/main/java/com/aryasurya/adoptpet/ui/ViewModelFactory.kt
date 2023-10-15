@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.aryasurya.adoptpet.data.UserRepository
 import com.aryasurya.adoptpet.di.Injection
 import com.aryasurya.adoptpet.ui.login.LoginViewModel
+import com.aryasurya.adoptpet.ui.main.MainViewModel
 import com.aryasurya.adoptpet.ui.register.RegisterViewModel
 
 class ViewModelFactory(private val repository: UserRepository) : ViewModelProvider.NewInstanceFactory() {
@@ -17,6 +18,9 @@ class ViewModelFactory(private val repository: UserRepository) : ViewModelProvid
             }
             modelClass.isAssignableFrom(LoginViewModel::class.java) -> {
                 LoginViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(MainViewModel::class.java) -> {
+                MainViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel Class: " + modelClass.name)
         }
