@@ -19,4 +19,5 @@
     <string name="register_account">Register Account</string>
     <string name="eror_text">Minimal 8 character</string>
     <string name="confirm_password_eror_text">Password not match</string>
+    <string name="input_confirm_password">Input confirm password</string>
 </resources>

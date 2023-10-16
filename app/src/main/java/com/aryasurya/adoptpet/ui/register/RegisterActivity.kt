@@ -9,9 +9,8 @@ import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.lifecycle.viewmodel.viewModelFactory
 import com.aryasurya.adoptpet.R
-import com.aryasurya.adoptpet.data.pref.UserModel
+import com.aryasurya.adoptpet.data.Result
 import com.aryasurya.adoptpet.databinding.ActivityRegisterBinding
 import com.aryasurya.adoptpet.ui.ViewModelFactory
 import com.aryasurya.adoptpet.ui.login.LoginActivity
@@ -47,6 +46,26 @@ class RegisterActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        viewModel.createUserResult.observe(this) { result ->
+            when(result) {
+                is Result.Loading -> {}
+                is Result.Success -> {
+                    val user = result.data
+                    // Tampilkan pesan sukses atau lakukan tindakan yang sesuai
+                    Toast.makeText(this, "Registration successful", Toast.LENGTH_SHORT).show()
+
+                    // Pindahkan pengguna ke aktivitas lain setelah registrasi berhasil
+                    val intent = Intent(this, LoginActivity::class.java) // Gantilah AktivitasLain dengan aktivitas yang sesuai
+                    startActivity(intent)
+                }
+                is Result.Error -> {
+                    val errorMessage = result.error
+                    // Tampilkan pesan kesalahan atau lakukan penanganan kesalahan yang sesuai
+                    Toast.makeText(this, "Kesalahan: $errorMessage", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
 //        VALIDASDI EMAIL
         validEmail()
 //        PASSWORD ERROR
@@ -65,9 +84,10 @@ class RegisterActivity : AppCompatActivity() {
             val inputUsername = username.editText?.text.toString()
             val inputEmail = email.editText?.text.toString()
             val inputPassword = password.editText?.text.toString()
+            val confirmPassword = binding.tiConfirmPasswordRegister.editText?.text.toString()
 
-            if (isUsernameValid(inputUsername) && isEmailValid(inputEmail) && isPasswordValid(inputPassword)) {
-                setupUser(inputUsername, inputEmail, inputPassword)
+            if (isUsernameValid(inputUsername) && isEmailValid(inputEmail) && isPasswordValid(inputPassword) && confirmPassword.isNotEmpty()) {
+                viewModel.createUser(inputUsername, inputEmail, inputPassword)
                 Toast.makeText(this, "Registration successful", Toast.LENGTH_SHORT).show()
                 finish()
             }
@@ -87,6 +107,7 @@ class RegisterActivity : AppCompatActivity() {
                 if (!isPasswordValid(inputPassword)) {
                     password.error = "Minimal 8 character"
                 }
+
             }
         }
     }
@@ -94,6 +115,8 @@ class RegisterActivity : AppCompatActivity() {
     private fun matchPassword() {
         val passwordLayout = binding.tiPasswordRegister
         val password = passwordLayout.editText
+        val confirmPasswordLayout = binding.tiConfirmPasswordRegister
+        val confirmPassword = confirmPasswordLayout.editText
 
         password?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence? , p1: Int , p2: Int , p3: Int) {
@@ -116,12 +139,16 @@ class RegisterActivity : AppCompatActivity() {
             }
 
             override fun afterTextChanged(p0: Editable?) {
+                if (p0.toString().isEmpty()) {
+                    confirmPasswordLayout.isErrorEnabled = true
+                    confirmPasswordLayout.error = getString(R.string.input_confirm_password)
+                } else {
+                    confirmPasswordLayout.isErrorEnabled = false
+                    confirmPasswordLayout.error = null
+                }
             }
 
         })
-
-        val confirmPasswordLayout = binding.tiConfirmPasswordRegister
-        val confirmPassword = confirmPasswordLayout.editText
 
         confirmPassword?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence? , p1: Int , p2: Int , p3: Int) {
@@ -168,7 +195,7 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun isUsernameValid(username: String): Boolean {
-        return !username.isEmpty()
+        return username.isNotEmpty()
     }
 
     private fun isEmailValid(email: String): Boolean {
@@ -178,7 +205,10 @@ class RegisterActivity : AppCompatActivity() {
     private fun isPasswordValid(password: String): Boolean {
         return password.length >= 8 // Contoh: Password harus memiliki panjang minimal 6 karakter
     }
-    private fun setupUser(username: String, email: String, password: String) {
-        viewModel.saveUser(listOf(UserModel(username, email, password, isLogin = true)))
-    }
+//    private fun setupUser(username: String, email: String, password: String) {
+//        viewModel.saveUser(listOf(UserModel(username, email, password, isLogin = true)))
+//    }
+//    private fun createUser(username: String, email: String, password: String) {
+//        viewModel.createUser(username, email, password)
+//    }
 }

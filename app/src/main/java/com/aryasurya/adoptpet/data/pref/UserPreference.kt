@@ -33,15 +33,17 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
             val usernameKey = stringPreferencesKey("${username}_username")
             val emailKey = stringPreferencesKey("${username}_email")
             val passwordKey = stringPreferencesKey("${username}_password")
+            val tokenKey = stringPreferencesKey("${username}_token")
             val isLoginKey = booleanPreferencesKey("${username}_isLogin")
 
             val username = preferences[usernameKey]
             val email = preferences[emailKey]
             val password = preferences[passwordKey]
+            val token = preferences[tokenKey]
             val isLogin = preferences[isLoginKey] ?: false
 
             if (username != null) {
-                UserModel(username, email ?: "", password ?: "", isLogin)
+                UserModel(username, email ?: "", password ?: "", token ?: "", isLogin)
             } else {
                 null
             }
@@ -62,6 +64,7 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
                 preferences[USERNAME_KEY] ?: "",
                 preferences[EMAIL_KEY] ?: "",
                 preferences[PASSWORD_KEY] ?: "",
+                preferences[TOKEN_KEY] ?: "",
                 preferences[IS_LOGIN_KEY] ?: false
             )
         }
