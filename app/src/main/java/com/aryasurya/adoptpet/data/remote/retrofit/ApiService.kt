@@ -2,8 +2,10 @@ package com.aryasurya.adoptpet.data.remote.retrofit
 
 import com.aryasurya.adoptpet.data.remote.response.CreateUserResponse
 import com.aryasurya.adoptpet.data.remote.response.LoginResponse
+import com.aryasurya.adoptpet.data.remote.response.StoriesResponse
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface ApiService {
@@ -23,4 +25,7 @@ interface ApiService {
         @Field("email") email: String,
         @Field("password") string: String
     ): LoginResponse
+
+    @GET("stories")
+    suspend fun getStories(): StoriesResponse
 }
