@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.aryasurya.adoptpet.R
+import com.aryasurya.adoptpet.databinding.FragmentListBinding
 
 /**
  * A simple [Fragment] subclass.
@@ -13,6 +14,8 @@ import com.aryasurya.adoptpet.R
  * create an instance of this fragment.
  */
 class ListFragment : Fragment() {
+
+    private lateinit var binding: FragmentListBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +27,14 @@ class ListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list , container , false)
+        binding = FragmentListBinding.inflate(inflater, container, false)
+        val view = binding.root
+        return view
+    }
+
+    override fun onViewCreated(view: View , savedInstanceState: Bundle?) {
+        super.onViewCreated(view , savedInstanceState)
+
     }
 
     companion object {

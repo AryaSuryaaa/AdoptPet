@@ -26,11 +26,29 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val toolbar = binding.toolbar
+        setSupportActionBar(toolbar)
+
+        supportActionBar?.apply {
+            setDisplayShowTitleEnabled(true)
+        }
+
         val navView: BottomNavigationView = binding.navView
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
 
         navView.setupWithNavController(navController)
+
+        // Observasi perubahan fragment
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            val fragmentTitle = when (destination.id) {
+                R.id.accountFragment -> "Account"
+                R.id.listFragment -> "List Story"
+                else -> getString(R.string.app_name)
+            }
+
+            supportActionBar?.title = fragmentTitle
+        }
 
         mainViewModel.getSession().observe(this) { user ->
             if (user?.isLogin == false) {
