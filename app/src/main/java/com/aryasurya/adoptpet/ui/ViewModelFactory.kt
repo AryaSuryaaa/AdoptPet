@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.aryasurya.adoptpet.data.UserRepository
 import com.aryasurya.adoptpet.di.Injection
+import com.aryasurya.adoptpet.ui.account.AccountViewModel
+import com.aryasurya.adoptpet.ui.list.ListStoryViewModel
 import com.aryasurya.adoptpet.ui.login.LoginViewModel
 import com.aryasurya.adoptpet.ui.main.MainViewModel
 import com.aryasurya.adoptpet.ui.register.RegisterViewModel
@@ -22,23 +24,15 @@ class ViewModelFactory(private val repository: UserRepository) : ViewModelProvid
             modelClass.isAssignableFrom(MainViewModel::class.java) -> {
                 MainViewModel(repository) as T
             }
+            modelClass.isAssignableFrom(ListStoryViewModel::class.java) -> {
+                ListStoryViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(AccountViewModel::class.java) -> {
+                AccountViewModel(repository) as T
+            }
             else -> throw IllegalArgumentException("Unknown ViewModel Class: " + modelClass.name)
         }
     }
-
-//    companion object {
-//        @Volatile
-//        private var INSTANCE: ViewModelFactory? = null
-//        @JvmStatic
-//        fun getInstance(context: Context): ViewModelFactory {
-//            if (INSTANCE == null) {
-//                synchronized(ViewModelFactory::class.java) {
-//                    INSTANCE = ViewModelFactory(Injection.provideRepository(context))
-//                }
-//            }
-//            return INSTANCE as ViewModelFactory
-//        }
-//    }
 
     companion object {
         @Volatile

@@ -1,6 +1,7 @@
 package com.aryasurya.adoptpet.data.remote.retrofit
 
 import com.aryasurya.adoptpet.data.remote.response.CreateUserResponse
+import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.data.remote.response.LoginResponse
 import com.aryasurya.adoptpet.data.remote.response.StoriesResponse
 import retrofit2.http.Field

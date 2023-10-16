@@ -7,7 +7,9 @@ import com.aryasurya.adoptpet.data.pref.UserModel
 import com.aryasurya.adoptpet.data.pref.UserPreference
 import com.aryasurya.adoptpet.data.remote.response.CreateUserResponse
 import com.aryasurya.adoptpet.data.remote.response.ErrorResponse
+import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.data.remote.response.LoginResponse
+import com.aryasurya.adoptpet.data.remote.response.StoriesResponse
 import com.aryasurya.adoptpet.data.remote.retrofit.ApiService
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
@@ -60,32 +62,7 @@ class UserRepository private constructor(
                 }
             }
         }
-//        Log.d("createUser" , "createUser: ${response.message}")
-//        if (user != null) emit(Result.Success(user))
     }
-
-//    suspend fun createUser(name: String, email: String, password: String): Flow<Result<UserModel>> = flow {
-//        emit(Result.Loading)
-//
-//        // Panggil metode createUser pada apiService
-//        val response = apiService.createUser(name, email, password)
-//
-//        if (!response.error) {
-//            // Jika respons berhasil, Anda dapat mengembalikan UserModel dengan token dan isLogin yang sesuai
-//            Log.d("createUser" , "createUser: ${response.message}")
-//            emit(Result.Success(UserModel(
-//                username = name,
-//                email = email,
-//                password = password,
-//                token = "",
-//                isLogin = true
-//            )))
-//        } else {
-//            // Jika ada kesalahan dalam respons, emit Result.Error
-//            emit(Result.Error("Error creating user: ${response.message}"))
-//            Log.d("createUser" , response.message)
-//        }
-//    }
 
     suspend fun login(email: String, password: String): Flow<Result<LoginResponse>> = flow {
         emit(Result.Loading)
@@ -98,6 +75,17 @@ class UserRepository private constructor(
         }
 //        Log.d("createUser" , "createUser: ${response.message}")
 //        if (user != null) emit(Result.Success(user))
+    }
+
+    fun listStory(): LiveData<Result<List<ListStoryItem>>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.getStories()
+            val stories = response.listStory
+            emit(Result.Success(stories))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message ?: "An error occurred"))
+        }
     }
 
 

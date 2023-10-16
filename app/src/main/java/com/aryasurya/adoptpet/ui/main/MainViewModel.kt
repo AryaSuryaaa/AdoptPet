@@ -10,11 +10,7 @@ import androidx.lifecycle.asLiveData
 
 
 class MainViewModel(private val repository: UserRepository): ViewModel() {
-    fun logout() {
-        viewModelScope.launch {
-            repository.logout()
-        }
-    }
+
 
     fun getSession(): LiveData<UserModel> {
         return repository.getSession().asLiveData()

@@ -4,54 +4,72 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.aryasurya.adoptpet.R
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.aryasurya.adoptpet.data.Result
+import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.databinding.FragmentListBinding
+import com.aryasurya.adoptpet.ui.ViewModelFactory
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ListFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ListFragment : Fragment() {
 
     private lateinit var binding: FragmentListBinding
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
+    private val viewModel by viewModels<ListStoryViewModel> {
+        ViewModelFactory.getInstance(requireContext())
     }
+    private var adapter = ListStoryAdapter()
 
     override fun onCreateView(
         inflater: LayoutInflater , container: ViewGroup? ,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        binding = FragmentListBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
+        binding = FragmentListBinding.inflate(inflater , container , false)
+        return binding.root
     }
+
 
     override fun onViewCreated(view: View , savedInstanceState: Bundle?) {
         super.onViewCreated(view , savedInstanceState)
+        viewModel.listStory.observe(viewLifecycleOwner) { result ->
 
-    }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ListFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String , param2: String) =
-            ListFragment().apply {
-                arguments = Bundle().apply {
+            val layoutManager = LinearLayoutManager(requireContext())
+            binding.rvListStory.layoutManager = layoutManager
+            binding.rvListStory.adapter = adapter
+
+            when (result) {
+                is Result.Loading -> {
+                    binding.pbListStory.visibility = View.VISIBLE
+                    Toast.makeText(activity, "Loading", Toast.LENGTH_SHORT).show()
                 }
+                is Result.Success -> {
+                    binding.pbListStory.visibility = View.GONE
+                    setListStory(result.data)
+                    Toast.makeText(activity, "Sukses", Toast.LENGTH_SHORT).show()
+                }
+                is Result.Error -> {
+                    binding.pbListStory.visibility = View.GONE
+                    Toast.makeText(requireContext(), "Eror ${result.error}", Toast.LENGTH_SHORT).show()
+                }
+
+                else -> {}
             }
+        }
     }
+    private fun setListStory(listStory: List<ListStoryItem>) {
+        adapter.submitList(listStory)
+
+
+        adapter.setOnItemClickCallback(object : ListStoryAdapter.OnItemClickCallback {
+            override fun onItemClicked(data: ListStoryItem) {
+                Toast.makeText(requireContext(), "Clicked ${data.name}", Toast.LENGTH_SHORT).show()
+            }
+
+        })
+    }
+
+
 }
