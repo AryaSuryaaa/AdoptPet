@@ -1,30 +1,26 @@
 package com.aryasurya.adoptpet.data
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.liveData
 import com.aryasurya.adoptpet.data.pref.UserModel
 import com.aryasurya.adoptpet.data.pref.UserPreference
+import com.aryasurya.adoptpet.data.remote.response.CreateUserResponse
+import com.aryasurya.adoptpet.data.remote.response.ErrorResponse
+import com.aryasurya.adoptpet.data.remote.response.LoginResponse
 import com.aryasurya.adoptpet.data.remote.retrofit.ApiService
+import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import retrofit2.HttpException
 
 class UserRepository private constructor(
     private val apiService: ApiService,
     private val userPreference: UserPreference
 ) {
-//    suspend fun saveUser(user: UserModel) {
-//        userPreference.saveUser(user)
-//    }
 
-    suspend fun saveUser(users: List<UserModel>) {
-        userPreference.saveUsers(users)
-    }
-
-    suspend fun observeUserData(username: String): UserModel? {
-        return userPreference.observeUsers(username)
-    }
-
-    suspend fun logout(user: UserModel) {
-        userPreference.logout(user)
+    suspend fun logout() {
+        userPreference.logout()
     }
 
     suspend fun saveSession(user: UserModel) {
@@ -36,37 +32,33 @@ class UserRepository private constructor(
     }
 
 
-    suspend fun createUser(name: String, email: String, password: String): Flow<Result<UserModel>> = flow {
+    suspend fun createUser(name: String, email: String, password: String): Flow<Result<CreateUserResponse>> = flow {
         emit(Result.Loading)
-        var user: UserModel? = null
-
-
         try {
             // Panggil metode createUser pada apiService
             val response = apiService.createUser(name, email, password)
-            if (!response.error) {
-                Log.d("createUser" , "createUser: ${response.message.toString()}")
-//                user = UserModel(
-//                    username = name,
-//                    email = email,
-//                    password = password,
-//                    token = "",
-//                    isLogin = true
-//                )
+            emit(Result.Success(response))
+        } catch (t: Throwable) {
+            when (t) {
+                is HttpException -> {
+                    try {
+                        val errorResponse = Gson().fromJson(
+                            t.response()?.errorBody()?.charStream(),
+                            ErrorResponse::class.java
+                        )
+                        Log.e("TAG_LOGIN", "onFailure: ${errorResponse.message}")
+                        emit(Result.Error(errorResponse.message))
+                    } catch (e: Exception) {
+                        Log.e("TAG_LOGIN", "onFailure: ${e.message.toString()}")
+                        emit(Result.Error(e.message.toString()))
+                    }
+                }
 
-                emit(Result.Success(UserModel(
-                    username = name,
-                    email = email,
-                    password = password,
-                    token = "",
-                    isLogin = true
-                )))
-            } else {
-                emit(Result.Error("Error creating user: ${response.message}"))
-                Log.d("createUser" , response.message)
+                else -> {
+                    Log.e("TAG_LOGIN", "onFailure: ${t.message.toString()}")
+                    emit(Result.Error(t.message.toString()))
+                }
             }
-        } catch (e: Exception) {
-            emit(Result.Error(e.message ?: "An error occurred"))
         }
 //        Log.d("createUser" , "createUser: ${response.message}")
 //        if (user != null) emit(Result.Success(user))
@@ -94,6 +86,20 @@ class UserRepository private constructor(
 //            Log.d("createUser" , response.message)
 //        }
 //    }
+
+    suspend fun login(email: String, password: String): Flow<Result<LoginResponse>> = flow {
+        emit(Result.Loading)
+        try {
+            // Panggil metode createUser pada apiService
+            val response = apiService.login(email, password)
+            emit(Result.Success(response))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message ?: "An error occurred"))
+        }
+//        Log.d("createUser" , "createUser: ${response.message}")
+//        if (user != null) emit(Result.Success(user))
+    }
+
 
     companion object {
         @Volatile

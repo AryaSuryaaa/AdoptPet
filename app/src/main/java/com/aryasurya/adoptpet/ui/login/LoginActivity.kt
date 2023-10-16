@@ -4,8 +4,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import com.aryasurya.adoptpet.data.Result
+import com.aryasurya.adoptpet.data.pref.UserModel
 import com.aryasurya.adoptpet.databinding.ActivityLoginBinding
 import com.aryasurya.adoptpet.ui.register.RegisterActivity
 import com.aryasurya.adoptpet.ui.ViewModelFactory
@@ -18,10 +21,33 @@ class LoginActivity : AppCompatActivity() {
         ViewModelFactory.getInstance(this)
     }
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        viewModel.loginResult.observe(this) { result ->
+            when(result) {
+                is Result.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                }
+                is Result.Success -> {
+                    binding.progressBar.visibility = View.GONE
+                    viewModel.saveSession(UserModel(result.data.loginResult.token))
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                }
+                is Result.Error -> {
+                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(this, "Username/password is incorrect", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+
+
 
         binding.tvRegisRight.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
@@ -29,25 +55,14 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.btnLogin.setOnClickListener {
-            val username = binding.tiUsernameLogin.editText?.text.toString()
+            val email = binding.tiUsernameLogin.editText?.text.toString()
             val password = binding.tiPasswordLogin.editText?.text.toString()
 
             // Memeriksa apakah username dan password sesuai dengan yang tersimpan di DataStore
-            viewModel.validateCredentials(username, password)
+//            viewModel.validateCredentials(username, password)
 
-        }
-
-        viewModel.userData.observe(this) { user ->
-            Log.d("DataStore" , "Username: ${user?.username}, Email: ${user?.email}, Password: ${user?.password}" )
-            if (user != null) {
-                // Data pengguna ditemukan, izinkan pengguna untuk masuk
-                viewModel.saveSession(user)
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-            } else {
-                // Data pengguna tidak ditemukan atau username/password salah
-                Toast.makeText(this, "Username/password is incorrect", Toast.LENGTH_SHORT).show()
-            }
+            viewModel.login(email, password)
         }
     }
+
 }

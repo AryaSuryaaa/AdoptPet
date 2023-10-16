@@ -15,45 +15,9 @@ import kotlinx.coroutines.flow.map
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "register")
 class UserPreference private constructor(private val dataStore: DataStore<Preferences>) {
 
-    suspend fun saveUsers(users: List<UserModel>) {
-        dataStore.edit { preferences ->
-            for (user in users) {
-                val userKey = stringPreferencesKey(user.username)
-
-                preferences[stringPreferencesKey("${userKey}_username")] = user.username
-                preferences[stringPreferencesKey("${userKey}_email")] = user.email
-                preferences[stringPreferencesKey("${userKey}_password")] = user.password
-                preferences[booleanPreferencesKey("${userKey}_login")] = user.isLogin
-            }
-        }
-    }
-
-    suspend fun observeUsers(username: String): UserModel? {
-        return dataStore.data.map { preferences ->
-            val usernameKey = stringPreferencesKey("${username}_username")
-            val emailKey = stringPreferencesKey("${username}_email")
-            val passwordKey = stringPreferencesKey("${username}_password")
-            val tokenKey = stringPreferencesKey("${username}_token")
-            val isLoginKey = booleanPreferencesKey("${username}_isLogin")
-
-            val username = preferences[usernameKey]
-            val email = preferences[emailKey]
-            val password = preferences[passwordKey]
-            val token = preferences[tokenKey]
-            val isLogin = preferences[isLoginKey] ?: false
-
-            if (username != null) {
-                UserModel(username, email ?: "", password ?: "", token ?: "", isLogin)
-            } else {
-                null
-            }
-        }.first()
-    }
-
     suspend fun saveSession(user: UserModel) {
         dataStore.edit { preferences ->
-            preferences[USERNAME_KEY] = user.username
-            preferences[EMAIL_KEY] = user.email
+            preferences[TOKEN_KEY] = user.token
             preferences[IS_LOGIN_KEY] = true
         }
     }
@@ -61,20 +25,15 @@ class UserPreference private constructor(private val dataStore: DataStore<Prefer
     fun getSession(): Flow<UserModel> {
         return dataStore.data.map { preferences ->
             UserModel(
-                preferences[USERNAME_KEY] ?: "",
-                preferences[EMAIL_KEY] ?: "",
-                preferences[PASSWORD_KEY] ?: "",
                 preferences[TOKEN_KEY] ?: "",
                 preferences[IS_LOGIN_KEY] ?: false
             )
         }
     }
 
-    suspend fun logout(user: UserModel) {
+    suspend fun logout() {
         dataStore.edit { preferences ->
-            preferences[USERNAME_KEY] = user.username
-            preferences[EMAIL_KEY] = user.email
-            preferences[IS_LOGIN_KEY] = false
+            preferences.clear()
         }
     }
 

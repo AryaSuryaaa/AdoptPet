@@ -26,17 +26,16 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        mainViewModel.getSession().observe(this) { user ->
-//            Log.d("logout" , "onCreate: ${user.username} ${user?.isLogin}")
-//            if (!user?.isLogin!!) {
-//                startActivity(Intent(this, LoginActivity::class.java))
-//                finish()
-//            }
-//
-//            binding.btnLogout.setOnClickListener {
-//                mainViewModel.logout(user)
-//            }
-//        }
+        mainViewModel.getSession().observe(this) { user ->
+            if (user?.isLogin == false) {
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
+            }
+
+            binding.btnLogout.setOnClickListener {
+                mainViewModel.logout()
+            }
+        }
 
     }
 }

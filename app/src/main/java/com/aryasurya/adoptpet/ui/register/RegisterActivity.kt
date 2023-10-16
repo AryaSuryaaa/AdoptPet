@@ -7,6 +7,7 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.util.Patterns
+import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.aryasurya.adoptpet.R
@@ -14,6 +15,7 @@ import com.aryasurya.adoptpet.data.Result
 import com.aryasurya.adoptpet.databinding.ActivityRegisterBinding
 import com.aryasurya.adoptpet.ui.ViewModelFactory
 import com.aryasurya.adoptpet.ui.login.LoginActivity
+import com.aryasurya.adoptpet.ui.main.MainActivity
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -48,23 +50,42 @@ class RegisterActivity : AppCompatActivity() {
 
         viewModel.createUserResult.observe(this) { result ->
             when(result) {
-                is Result.Loading -> {}
+                is Result.Loading -> {
+//                    binding.progressBar.visibility = View.VISIBLE
+                }
                 is Result.Success -> {
-                    val user = result.data
-                    // Tampilkan pesan sukses atau lakukan tindakan yang sesuai
+//                    binding.progressBar.visibility = View.GONE
+                    val intent = Intent(this, LoginActivity::class.java)
                     Toast.makeText(this, "Registration successful", Toast.LENGTH_SHORT).show()
-
-                    // Pindahkan pengguna ke aktivitas lain setelah registrasi berhasil
-                    val intent = Intent(this, LoginActivity::class.java) // Gantilah AktivitasLain dengan aktivitas yang sesuai
                     startActivity(intent)
                 }
                 is Result.Error -> {
-                    val errorMessage = result.error
-                    // Tampilkan pesan kesalahan atau lakukan penanganan kesalahan yang sesuai
-                    Toast.makeText(this, "Kesalahan: $errorMessage", Toast.LENGTH_SHORT).show()
+//                    binding.progressBar.visibility = View.GONE
+                    Toast.makeText(this, "Email is Already Taken", Toast.LENGTH_SHORT).show()
                 }
             }
         }
+
+
+//        viewModel.createUserResult.observe(this) { result ->
+//            when(result) {
+//                is Result.Loading -> {}
+//                is Result.Success -> {
+//                    val user = result.data
+//                    // Tampilkan pesan sukses atau lakukan tindakan yang sesuai
+//                    Toast.makeText(this, "Registration successful", Toast.LENGTH_SHORT).show()
+//
+//                    // Pindahkan pengguna ke aktivitas lain setelah registrasi berhasil
+//                    val intent = Intent(this, LoginActivity::class.java) // Gantilah AktivitasLain dengan aktivitas yang sesuai
+//                    startActivity(intent)
+//                }
+//                is Result.Error -> {
+//                    val errorMessage = result.error
+//                    // Tampilkan pesan kesalahan atau lakukan penanganan kesalahan yang sesuai
+//                    Toast.makeText(this, "Kesalahan: $errorMessage", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//        }
 
 //        VALIDASDI EMAIL
         validEmail()
@@ -88,8 +109,7 @@ class RegisterActivity : AppCompatActivity() {
 
             if (isUsernameValid(inputUsername) && isEmailValid(inputEmail) && isPasswordValid(inputPassword) && confirmPassword.isNotEmpty()) {
                 viewModel.createUser(inputUsername, inputEmail, inputPassword)
-                Toast.makeText(this, "Registration successful", Toast.LENGTH_SHORT).show()
-                finish()
+                
             }
             else {
                 username.isErrorEnabled = false
