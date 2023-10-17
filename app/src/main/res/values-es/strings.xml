@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Our Story</string>
+    <string name="app_name">Pet Adoption</string>
     <string name="pet_adoption">Pet Adoption</string>
     <string name="username">nombre de usuario</string>
     <string name="password">contraseña</string>
@@ -42,5 +42,9 @@
     <string name="data">Data</string>
     <string name="description">descripción</string>
     <string name="post">Correo</string>
-    <string name="no_data_found">Datos no encontrados</string>
+    <string name="no_data_found">No data found</string>
+    <string name="uploadedText">%1$s</string>
+    <string name="are_you_sure_you_want_to_log_out">¿Está seguro de que desea cerrar sesión?</string>
+    <string name="yes">Sí</string>
+    <string name="no">No</string>
 </resources>

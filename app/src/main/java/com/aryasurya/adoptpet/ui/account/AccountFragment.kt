@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import com.aryasurya.adoptpet.R
 import com.aryasurya.adoptpet.data.Result
 import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.databinding.FragmentAccountBinding
@@ -37,7 +39,17 @@ class AccountFragment : Fragment() {
         super.onViewCreated(view , savedInstanceState)
 
         binding.btnLogout.setOnClickListener {
-            viewModel.logout()
+            val builder = AlertDialog.Builder(requireActivity())
+            builder.setMessage(getString(R.string.are_you_sure_you_want_to_log_out))
+            builder.setPositiveButton(getString(R.string.yes)) { dialog , _ ->
+                viewModel.logout()
+                dialog.dismiss()
+            }
+            builder.setNegativeButton(getString(R.string.no)) { dialog , _ ->
+                dialog.dismiss()
+            }
+            val dialog = builder.create()
+            dialog.show()
         }
 
         val layoutManager = GridLayoutManager(requireContext(), 2)

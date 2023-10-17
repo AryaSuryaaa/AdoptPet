@@ -2,11 +2,14 @@ package com.aryasurya.adoptpet.ui.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.res.TypedArrayUtils
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.aryasurya.adoptpet.R
 import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.databinding.StoryItemBinding
+import com.aryasurya.adoptpet.helper.withDateFormat
 import com.bumptech.glide.Glide
 
 class ListStoryAdapter : ListAdapter<ListStoryItem, ListStoryAdapter.MyViewHolder>(DIFF_CALLBACK){
@@ -28,7 +31,7 @@ class ListStoryAdapter : ListAdapter<ListStoryItem, ListStoryAdapter.MyViewHolde
                 .into(binding.ivStory)
             binding.tvNameStory.text = item.name
             binding.tvDescStory.text = item.description
-            binding.tvCratedatStory.text = item.createdAt
+            binding.tvCratedatStory.text = item.createdAt.withDateFormat()
         }
     }
 

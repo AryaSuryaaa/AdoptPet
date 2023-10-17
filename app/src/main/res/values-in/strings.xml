@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Our Story</string>
+    <string name="app_name">Pet Adoption</string>
     <string name="pet_adoption">Pet Adoption</string>
     <string name="username">Nama pengguna</string>
     <string name="password">Kata sandi</string>
@@ -43,4 +43,8 @@
     <string name="description">deskripsi</string>
     <string name="post">Post</string>
     <string name="no_data_found">Tidak ada data ditemukan</string>
+    <string name="uploadedText">%1$s</string>
+    <string name="are_you_sure_you_want_to_log_out">Apakah Anda yakin ingin logout?</string>
+    <string name="yes">Ya</string>
+    <string name="no">Tidak</string>
 </resources>
