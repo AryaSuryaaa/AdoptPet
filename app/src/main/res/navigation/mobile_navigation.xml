@@ -15,4 +15,9 @@
         android:name="com.aryasurya.adoptpet.ui.list.ListFragment"
         android:label="fragment_list"
         tools:layout="@layout/fragment_list" />
+    <activity
+        android:id="@+id/addPostActivity"
+        android:name="com.aryasurya.adoptpet.ui.addpost.AddPostActivity"
+        android:label="activity_add_post"
+        tools:layout="@layout/activity_add_post" />
 </navigation>

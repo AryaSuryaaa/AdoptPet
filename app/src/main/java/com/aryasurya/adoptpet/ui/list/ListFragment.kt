@@ -43,16 +43,13 @@ class ListFragment : Fragment() {
             when (result) {
                 is Result.Loading -> {
                     binding.pbListStory.visibility = View.VISIBLE
-                    Toast.makeText(activity, "Loading", Toast.LENGTH_SHORT).show()
                 }
                 is Result.Success -> {
                     binding.pbListStory.visibility = View.GONE
                     setListStory(result.data)
-                    Toast.makeText(activity, "Sukses", Toast.LENGTH_SHORT).show()
                 }
                 is Result.Error -> {
                     binding.pbListStory.visibility = View.GONE
-                    Toast.makeText(requireContext(), "Eror ${result.error}", Toast.LENGTH_SHORT).show()
                 }
 
                 else -> {}

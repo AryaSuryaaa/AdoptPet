@@ -1,0 +1,190 @@
+package com.aryasurya.adoptpet.ui.addpost
+
+import android.Manifest
+import android.app.AlertDialog
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.os.Handler
+import android.util.Log
+import android.view.View
+import android.view.WindowManager
+import android.widget.Toast
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
+import com.aryasurya.adoptpet.R
+import com.aryasurya.adoptpet.data.Result
+import com.aryasurya.adoptpet.databinding.ActivityAddPostBinding
+import com.aryasurya.adoptpet.helper.reduceFileImage
+import com.aryasurya.adoptpet.helper.uriToFile
+import com.aryasurya.adoptpet.ui.ViewModelFactory
+import com.aryasurya.adoptpet.ui.camera.CameraActivity
+import com.aryasurya.adoptpet.ui.camera.CameraActivity.Companion.CAMERAX_RESULT
+import com.aryasurya.adoptpet.ui.main.MainActivity
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+
+class AddPostActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityAddPostBinding
+    private val viewModel by viewModels<AddPostViewModel> {
+        ViewModelFactory.getInstance(this)
+    }
+
+    private var loadingStartTime: Long = 0
+    private var progressHandler: Handler? = null
+
+    // CEK PERMISSION IMAGE
+    private var currentImageUri: Uri? = null
+
+    private val requestPermissLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+        if (isGranted) {
+            Toast.makeText(this, "Permission request granted", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this, "Permission request denied", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun allPermissionsGranted() =
+        ContextCompat.checkSelfPermission(this, REQUIRED_PERMISSION) == PackageManager.PERMISSION_GRANTED
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityAddPostBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        //        SETUP TOOLBAR
+        val toolbar = binding.toolbar
+        setSupportActionBar(toolbar)
+
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowTitleEnabled(false)
+        }
+
+        toolbar.setNavigationOnClickListener{
+            onBackPressed()
+        }
+
+        if (!allPermissionsGranted()) {
+            requestPermissLauncher.launch(REQUIRED_PERMISSION)
+        }
+
+
+        viewModel.postResult.observe(this) { result ->
+            when(result) {
+                is Result.Loading -> {
+                    binding.lineProgressBar.isIndeterminate = true
+                    binding.lineProgressBar.visibility = View.VISIBLE
+                    binding.overlayLoading.visibility = View.VISIBLE
+                    window.setFlags(
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+                        WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+                    )
+                }
+                is Result.Success -> {
+                    binding.lineProgressBar.visibility = View.GONE
+                    binding.overlayLoading.visibility = View.GONE
+                    window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                    startActivity(Intent(this, MainActivity::class.java))
+                    Toast.makeText(this, "Upload successful", Toast.LENGTH_SHORT).show()
+                }
+                is Result.Error -> {
+                    binding.overlayLoading.visibility = View.GONE
+                    window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
+                    binding.lineProgressBar.visibility = View.GONE
+                    Toast.makeText(this, "Upload failed", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        binding.addImage.setOnClickListener {
+            selectImage()
+        }
+
+        binding.btnPost.setOnClickListener { uploadImage() }
+    }
+
+    private fun uploadImage() {
+        currentImageUri?.let { uri ->
+            val imageFile = uriToFile(uri, this).reduceFileImage()
+            val description = binding.descriptionInput.text.toString()
+
+            val requestBody = description.toRequestBody("text/plain".toMediaType())
+            val resquestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
+            val multipartBody = MultipartBody.Part.createFormData(
+                "photo", imageFile.name, resquestImageFile
+            )
+
+            viewModel.postStory(multipartBody, requestBody)
+        }
+    }
+
+    private fun selectImage() {
+        val optionActions = arrayOf<CharSequence>("Take photo", "Gallery", "Cancel")
+        val dialogBuilder = AlertDialog.Builder(this)
+        dialogBuilder.setTitle("Choose From")
+        dialogBuilder.setIcon(R.mipmap.ic_launcher)
+        dialogBuilder.setItems(optionActions) { dialogInterface, i ->
+            when(i) {
+                0 -> {
+                    startCameraX()
+                }
+                1 -> {
+                    startGallery()
+                }
+                2 -> {
+                    dialogInterface.dismiss()
+                }
+            }
+        }
+        dialogBuilder.show()
+    }
+
+    private fun startGallery() {
+        launcherGallery.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+    }
+
+    private val launcherGallery = registerForActivityResult(
+        ActivityResultContracts.PickVisualMedia()
+    ) { uri: Uri? ->
+        if (uri != null) {
+            currentImageUri = uri
+            showImage()
+        } else {
+            Log.d("Photo Picker", "No media selected")
+        }
+    }
+    private fun startCameraX() {
+        val intent = Intent(this, CameraActivity::class.java)
+        launcherIntentCameraX.launch(intent)
+    }
+
+    private val launcherIntentCameraX = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {
+        if (it.resultCode == CAMERAX_RESULT) {
+            currentImageUri = it.data?.getStringExtra(CameraActivity.EXTRA_CAMERAX_IMAGE)?.toUri()
+            showImage()
+        }
+    }
+
+    private fun showImage() {
+        currentImageUri?.let {
+            Log.d("Image URI" , "showImage: $it")
+            binding.addImage.setImageURI(it)
+        }
+        binding.tvAddPhoto.visibility = View.GONE
+    }
+
+    companion object {
+        private  const val REQUIRED_PERMISSION = Manifest.permission.CAMERA
+    }
+}

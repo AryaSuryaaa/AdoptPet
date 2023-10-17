@@ -31,4 +31,9 @@
     </style>
 
     <style name="Theme.AdoptPet" parent="Base.Theme.AdoptPet" />
+
+    <style name="roundedImageView">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">10%</item>
+    </style>
 </resources>

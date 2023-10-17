@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.aryasurya.adoptpet.data.UserRepository
 import com.aryasurya.adoptpet.di.Injection
 import com.aryasurya.adoptpet.ui.account.AccountViewModel
+import com.aryasurya.adoptpet.ui.addpost.AddPostViewModel
 import com.aryasurya.adoptpet.ui.list.ListStoryViewModel
 import com.aryasurya.adoptpet.ui.login.LoginViewModel
 import com.aryasurya.adoptpet.ui.main.MainViewModel
@@ -29,6 +30,9 @@ class ViewModelFactory(private val repository: UserRepository) : ViewModelProvid
             }
             modelClass.isAssignableFrom(AccountViewModel::class.java) -> {
                 AccountViewModel(repository) as T
+            }
+            modelClass.isAssignableFrom(AddPostViewModel::class.java) -> {
+                AddPostViewModel(repository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel Class: " + modelClass.name)
         }

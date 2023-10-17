@@ -7,6 +7,7 @@ import com.aryasurya.adoptpet.data.pref.UserModel
 import com.aryasurya.adoptpet.data.pref.UserPreference
 import com.aryasurya.adoptpet.data.remote.response.CreateUserResponse
 import com.aryasurya.adoptpet.data.remote.response.ErrorResponse
+import com.aryasurya.adoptpet.data.remote.response.FileUploadResponse
 import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.data.remote.response.LoginResponse
 import com.aryasurya.adoptpet.data.remote.response.StoriesResponse
@@ -14,6 +15,8 @@ import com.aryasurya.adoptpet.data.remote.retrofit.ApiService
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.HttpException
 
 class UserRepository private constructor(
@@ -83,6 +86,16 @@ class UserRepository private constructor(
             val response = apiService.getStories()
             val stories = response.listStory
             emit(Result.Success(stories))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message ?: "An error occurred"))
+        }
+    }
+
+    suspend fun postStory(multipartBody: MultipartBody.Part, description: RequestBody): Flow<Result<FileUploadResponse>> = flow {
+        emit(Result.Loading)
+        try {
+            val response = apiService.postStory(multipartBody, description)
+            emit(Result.Success(response))
         } catch (e: Exception) {
             emit(Result.Error(e.message ?: "An error occurred"))
         }
