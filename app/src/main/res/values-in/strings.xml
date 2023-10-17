@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Our Story</string>
+    <string name="pet_adoption">Pet Adoption</string>
+    <string name="username">Nama pengguna</string>
+    <string name="password">Kata sandi</string>
+    <string name="forgot_password">Lupa password?</string>
+    <string name="log_in">Masuk</string>
+    <string name="don_t_have_an_account">Belum punya akun?</string>
+    <string name="sign_up">Daftar</string>
+    <string name="logo_app">logo app</string>
+    <string name="ca_sub">Isi formulir untuk akun baru Anda</string>
+    <string name="create_account">Buat akun</string>
+    <string name="email">Email</string>
+    <string name="confirm_password">Konfirmasi password</string>
+    <string name="login">Masuk</string>
+    <string name="do_you_already_have_an_account">apakah kamu sudah mempunyai akun?</string>
+    <string name="register_account">Daftarkan Akun</string>
+    <string name="eror_text">Minimal 8 character</string>
+    <string name="confirm_password_eror_text">Kata sandi tidak cocok</string>
+    <string name="input_confirm_password">Masukkan konfirmasi kata sandi</string>
+    <string name="registration_successful">Registrasi berhasil</string>
+    <string name="email_is_already_taken">Email sudah digunakan</string>
+    <string name="fill_the_username">Isi nama pengguna</string>
+    <string name="invalid_email_address">Alamat email salah</string>
+    <string name="minimal_8_character">Minimal 8 character</string>
+    <string name="list_story">Daftar Cerita</string>
+    <string name="username_password_is_incorrect">Nama pengguna/kata sandi salah</string>
+    <string name="failed_to_get_camera">Gagal mendapatkan kamera</string>
+    <string name="failed_to_get_image">Gagal mendapatkan Gambar</string>
+    <string name="permission_request_granted">Permintaan izin diizinkan</string>
+    <string name="permission_request_denied">Permintaan izin ditolak</string>
+    <string name="upload_successful">Unggahan berhasil</string>
+    <string name="upload_failed">Gagal mengunggah</string>
+    <string name="choose_from">Pilih dari</string>
+    <string name="take_photo">Ambil gambar</string>
+    <string name="gallery">Galeri</string>
+    <string name="cancel">Batalkan</string>
+    <string name="account">akun</string>
+    <string name="home">beranda</string>
+    <string name="add_picture">Tambahkan Gambar</string>
+    <string name="data">Data</string>
+    <string name="description">deskripsi</string>
+    <string name="post">Post</string>
+    <string name="no_data_found">Tidak ada data ditemukan</string>
+</resources>

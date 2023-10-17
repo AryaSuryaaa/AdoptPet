@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Our Story</string>
+    <string name="pet_adoption">Pet Adoption</string>
+    <string name="username">nombre de usuario</string>
+    <string name="password">contraseña</string>
+    <string name="forgot_password">¿Has olvidado tu contraseña?</string>
+    <string name="log_in">acceso</string>
+    <string name="don_t_have_an_account">¿No tienes una cuenta?</string>
+    <string name="sign_up">¿Inscribirse?</string>
+    <string name="logo_app">aplicación de logotipo</string>
+    <string name="ca_sub">Complete el formulario para su nueva cuenta</string>
+    <string name="create_account">Crear una cuenta</string>
+    <string name="email">Correo electrónico</string>
+    <string name="confirm_password">Confirmar Contraseña</string>
+    <string name="login">acceso</string>
+    <string name="do_you_already_have_an_account">¿Ya tienes una cuenta?</string>
+    <string name="register_account">Registrar Cuenta</string>
+    <string name="eror_text">Mínimo 8 caracteres</string>
+    <string name="confirm_password_eror_text">La contraseña no coincide</string>
+    <string name="input_confirm_password">Ingrese la contraseña de confirmación</string>
+    <string name="registration_successful">Registro exitoso</string>
+    <string name="email_is_already_taken">Correo electrónico ya está en uso</string>
+    <string name="fill_the_username">Complete el nombre de usuario</string>
+    <string name="invalid_email_address">Dirección de correo electrónico no válida</string>
+    <string name="minimal_8_character">Mínimo 8 caracteres</string>
+    <string name="list_story">Lista de historias</string>
+    <string name="username_password_is_incorrect">El nombre de usuario/contraseña es incorrecto</string>
+    <string name="failed_to_get_camera">No se pudo obtener la cámara</string>
+    <string name="failed_to_get_image">No se pudo obtener la imagen</string>
+    <string name="permission_request_granted">Solicitud de permiso concedida</string>
+    <string name="permission_request_denied">Solicitud de permiso denegada</string>
+    <string name="upload_successful">Subida exitosa</string>
+    <string name="upload_failed">Subida fallida</string>
+    <string name="choose_from">Escoge de</string>
+    <string name="take_photo">Tomar foto</string>
+    <string name="gallery">Galería</string>
+    <string name="cancel">Cancelar</string>
+    <string name="account">cuenta</string>
+    <string name="home">pagina de inicio</string>
+    <string name="add_picture">Añade una foto</string>
+    <string name="data">Data</string>
+    <string name="description">descripción</string>
+    <string name="post">Correo</string>
+    <string name="no_data_found">Datos no encontrados</string>
+</resources>
