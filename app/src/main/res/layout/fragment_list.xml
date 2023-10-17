@@ -4,12 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.list.ListFragment">
+    tools:context=".ui.list.ListFragment"
+    android:background="?attr/colorSurfaceVariant">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_list_story"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:paddingTop="16dp"
         tools:listitem="@layout/story_item"
         android:layout_marginHorizontal="16dp"
         app:layout_constraintStart_toStartOf="parent"

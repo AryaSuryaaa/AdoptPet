@@ -1,5 +1,6 @@
 package com.aryasurya.adoptpet.ui.list
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import com.aryasurya.adoptpet.data.Result
 import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.databinding.FragmentListBinding
 import com.aryasurya.adoptpet.ui.ViewModelFactory
+import com.aryasurya.adoptpet.ui.detailpost.DetailPostActivity
 
 class ListFragment : Fragment() {
 
@@ -25,7 +27,6 @@ class ListFragment : Fragment() {
         inflater: LayoutInflater , container: ViewGroup? ,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         binding = FragmentListBinding.inflate(inflater , container , false)
         return binding.root
     }
@@ -33,13 +34,12 @@ class ListFragment : Fragment() {
 
     override fun onViewCreated(view: View , savedInstanceState: Bundle?) {
         super.onViewCreated(view , savedInstanceState)
+
+        val layoutManager = LinearLayoutManager(requireContext())
+        binding.rvListStory.layoutManager = layoutManager
+        binding.rvListStory.adapter = adapter
+
         viewModel.listStory.observe(viewLifecycleOwner) { result ->
-
-
-            val layoutManager = LinearLayoutManager(requireContext())
-            binding.rvListStory.layoutManager = layoutManager
-            binding.rvListStory.adapter = adapter
-
             when (result) {
                 is Result.Loading -> {
                     binding.pbListStory.visibility = View.VISIBLE
@@ -51,22 +51,20 @@ class ListFragment : Fragment() {
                 is Result.Error -> {
                     binding.pbListStory.visibility = View.GONE
                 }
-
                 else -> {}
             }
         }
     }
+
     private fun setListStory(listStory: List<ListStoryItem>) {
         adapter.submitList(listStory)
 
-
         adapter.setOnItemClickCallback(object : ListStoryAdapter.OnItemClickCallback {
             override fun onItemClicked(data: ListStoryItem) {
-                Toast.makeText(requireContext(), "Clicked ${data.name}", Toast.LENGTH_SHORT).show()
+                val intent = Intent(requireContext(), DetailPostActivity::class.java)
+                intent.putExtra("idUser", data.id)
+                startActivity(intent)
             }
-
         })
     }
-
-
 }

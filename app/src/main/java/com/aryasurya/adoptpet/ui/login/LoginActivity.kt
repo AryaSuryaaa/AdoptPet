@@ -12,6 +12,7 @@ import com.aryasurya.adoptpet.data.pref.UserModel
 import com.aryasurya.adoptpet.databinding.ActivityLoginBinding
 import com.aryasurya.adoptpet.ui.register.RegisterActivity
 import com.aryasurya.adoptpet.ui.ViewModelFactory
+import com.aryasurya.adoptpet.ui.account.AccountFragment
 import com.aryasurya.adoptpet.ui.main.MainActivity
 
 class LoginActivity : AppCompatActivity() {
@@ -35,7 +36,8 @@ class LoginActivity : AppCompatActivity() {
                 }
                 is Result.Success -> {
                     binding.progressBar.visibility = View.GONE
-                    viewModel.saveSession(UserModel(result.data.loginResult.token))
+                    viewModel.saveSession(UserModel(result.data.loginResult.name, result.data.loginResult.token))
+
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
                 }

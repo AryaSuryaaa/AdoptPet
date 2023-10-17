@@ -6,11 +6,13 @@ import androidx.lifecycle.liveData
 import com.aryasurya.adoptpet.data.pref.UserModel
 import com.aryasurya.adoptpet.data.pref.UserPreference
 import com.aryasurya.adoptpet.data.remote.response.CreateUserResponse
+import com.aryasurya.adoptpet.data.remote.response.DetailStoriesResponse
 import com.aryasurya.adoptpet.data.remote.response.ErrorResponse
 import com.aryasurya.adoptpet.data.remote.response.FileUploadResponse
 import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.data.remote.response.LoginResponse
 import com.aryasurya.adoptpet.data.remote.response.StoriesResponse
+import com.aryasurya.adoptpet.data.remote.response.Story
 import com.aryasurya.adoptpet.data.remote.retrofit.ApiService
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
@@ -96,6 +98,33 @@ class UserRepository private constructor(
         try {
             val response = apiService.postStory(multipartBody, description)
             emit(Result.Success(response))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message ?: "An error occurred"))
+        }
+    }
+
+    suspend fun detailStory(id: String): Flow<Result<Story>> = flow {
+        emit(Result.Loading)
+        try {
+            val response = apiService.getDetailStory(id)
+            val story = response.story
+            emit(Result.Success(story))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message ?: "An error occurred"))
+        }
+    }
+
+    fun myStory(name: String): LiveData<Result<List<ListStoryItem>>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.getStories()
+            val result = response.listStory
+
+            val filterName = result.filter { story ->
+                story.name == name
+            }
+
+            emit(Result.Success(filterName))
         } catch (e: Exception) {
             emit(Result.Error(e.message ?: "An error occurred"))
         }

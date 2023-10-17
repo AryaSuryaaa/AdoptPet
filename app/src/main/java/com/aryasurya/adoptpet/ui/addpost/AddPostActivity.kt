@@ -93,7 +93,9 @@ class AddPostActivity : AppCompatActivity() {
                     binding.lineProgressBar.visibility = View.GONE
                     binding.overlayLoading.visibility = View.GONE
                     window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-                    startActivity(Intent(this, MainActivity::class.java))
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                    startActivity(intent)
                     Toast.makeText(this, "Upload successful", Toast.LENGTH_SHORT).show()
                 }
                 is Result.Error -> {
@@ -102,6 +104,8 @@ class AddPostActivity : AppCompatActivity() {
                     binding.lineProgressBar.visibility = View.GONE
                     Toast.makeText(this, "Upload failed", Toast.LENGTH_SHORT).show()
                 }
+
+                else -> {}
             }
         }
 

@@ -1,6 +1,7 @@
 package com.aryasurya.adoptpet.data.remote.retrofit
 
 import com.aryasurya.adoptpet.data.remote.response.CreateUserResponse
+import com.aryasurya.adoptpet.data.remote.response.DetailStoriesResponse
 import com.aryasurya.adoptpet.data.remote.response.FileUploadResponse
 import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.data.remote.response.LoginResponse
@@ -13,6 +14,7 @@ import retrofit2.http.GET
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.Path
 
 interface ApiService {
 
@@ -41,4 +43,10 @@ interface ApiService {
         @Part file: MultipartBody.Part ,
         @Part("description") description: RequestBody ,
     ): FileUploadResponse
+
+    @GET("stories/{id}")
+    suspend fun getDetailStory(
+        @Path("id") id: String
+    ): DetailStoriesResponse
+
 }
