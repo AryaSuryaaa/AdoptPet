@@ -27,6 +27,8 @@ class MainActivity : AppCompatActivity() {
     private val mainViewModel by viewModels<MainViewModel> {
         ViewModelFactory.getInstance(this)
     }
+
+    private var nameUser = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -48,7 +50,7 @@ class MainActivity : AppCompatActivity() {
         // Observasi perubahan fragment
         navController.addOnDestinationChangedListener { _, destination, _ ->
             val fragmentTitle = when (destination.id) {
-                R.id.accountFragment -> "Account"
+                R.id.accountFragment -> "$nameUser"
                 R.id.listFragment -> "List Story"
                 else -> getString(R.string.app_name)
             }
@@ -57,14 +59,12 @@ class MainActivity : AppCompatActivity() {
         }
 
         mainViewModel.getSession().observe(this) { user ->
+            nameUser = user.username
             if (user?.isLogin == false) {
                 startActivity(Intent(this, LoginActivity::class.java))
                 finish()
             }
         }
-
-
-
     }
 
 

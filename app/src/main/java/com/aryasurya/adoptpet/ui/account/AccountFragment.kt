@@ -57,41 +57,27 @@ class AccountFragment : Fragment() {
         binding.rvMyListStory.layoutManager = layoutManager
         binding.rvMyListStory.adapter = adapter
 
-        val username = viewModel.getSession().observe(requireActivity()) {
+        viewModel.getSession().observe(requireActivity()) {
             nameUser = it.username
         }
-//
-//        viewModel.fetchResult.observe(viewLifecycleOwner) { result ->
-//            when (result) {
-//                is Result.Loading -> {
-//                    Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT).show()
-//                }
-//                is Result.Success -> {
-//                    setListMyStory(result.data)
-//                    Toast.makeText(requireContext(), "Berhasil", Toast.LENGTH_SHORT).show()
-//                }
-//                is Result.Error -> {
-//                    Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
-//                }
-//
-//                else -> {}
-//            }
-//        }
 
         viewModel.getMyStory(nameUser).observe(viewLifecycleOwner) { result ->
             when (result) {
                 is Result.Loading -> {
-//                    binding.pbListStory.visibility = View.VISIBLE
-                    Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT).show()
+                    binding.pbMyListStory.visibility = View.VISIBLE
                 }
                 is Result.Success -> {
-//                    binding.pbListStory.visibility = View.GONE
-                    setListMyStory(result.data)
-                    Toast.makeText(requireContext(), "Berhasil", Toast.LENGTH_SHORT).show()
+                    binding.pbMyListStory.visibility = View.GONE
+
+                    if (result.data.isNotEmpty()) {
+                        binding.tvNoData.visibility = View.VISIBLE
+                        setListMyStory(result.data)
+                    } else {
+                        binding.tvNoData.visibility = View.VISIBLE
+                    }
                 }
                 is Result.Error -> {
-//                    binding.pbListStory.visibility = View.GONE
-                    Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                    binding.pbMyListStory.visibility = View.GONE
                 }
                 else -> {}
             }
