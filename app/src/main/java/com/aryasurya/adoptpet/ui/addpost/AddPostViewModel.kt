@@ -7,8 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.aryasurya.adoptpet.data.Result
 import com.aryasurya.adoptpet.data.UserRepository
 import com.aryasurya.adoptpet.data.remote.response.FileUploadResponse
-import com.aryasurya.adoptpet.data.remote.response.LoginResponse
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import okhttp3.RequestBody

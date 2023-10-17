@@ -6,26 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.aryasurya.adoptpet.R
 import com.aryasurya.adoptpet.data.Result
-import com.aryasurya.adoptpet.data.pref.UserModel
 import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.databinding.FragmentAccountBinding
-import com.aryasurya.adoptpet.databinding.FragmentListBinding
 import com.aryasurya.adoptpet.ui.ViewModelFactory
 import com.aryasurya.adoptpet.ui.detailpost.DetailPostActivity
-import com.aryasurya.adoptpet.ui.list.AccountAdapter
-import com.aryasurya.adoptpet.ui.list.ListStoryAdapter
-import com.aryasurya.adoptpet.ui.list.ListStoryViewModel
-import com.aryasurya.adoptpet.ui.login.LoginActivity
-import com.aryasurya.adoptpet.ui.login.LoginViewModel
-import com.aryasurya.adoptpet.ui.main.MainActivity
 
 class AccountFragment : Fragment() {
 

@@ -12,7 +12,6 @@ import com.aryasurya.adoptpet.R
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
-
 class MyEditText : TextInputEditText {
 
     constructor(context: Context) : super(context)
@@ -38,11 +37,11 @@ class MyEditText : TextInputEditText {
                 val textInputLayout = parent.parent as TextInputLayout
                 if (p0 != null && p0.length <= 7) {
                     textInputLayout.error = context.getString(R.string.eror_text)
-                    textInputLayout.errorIconDrawable = null // Hapus ikon kesalahan jika diperlukan
+                    textInputLayout.errorIconDrawable = null
                     val errorColor = ColorStateList.valueOf(typedValue.data)
-                    textInputLayout.boxStrokeErrorColor = errorColor // Atur warna bingkai kesalahan
+                    textInputLayout.boxStrokeErrorColor = errorColor
                 } else {
-                    textInputLayout.error = null // Hapus pesan kesalahan jika teks valid
+                    textInputLayout.error = null
                 }
             }
 

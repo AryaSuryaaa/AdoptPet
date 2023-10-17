@@ -5,9 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.util.Patterns
-import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.aryasurya.adoptpet.R
@@ -15,7 +13,6 @@ import com.aryasurya.adoptpet.data.Result
 import com.aryasurya.adoptpet.databinding.ActivityRegisterBinding
 import com.aryasurya.adoptpet.ui.ViewModelFactory
 import com.aryasurya.adoptpet.ui.login.LoginActivity
-import com.aryasurya.adoptpet.ui.main.MainActivity
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -56,36 +53,17 @@ class RegisterActivity : AppCompatActivity() {
                 is Result.Success -> {
 //                    binding.progressBar.visibility = View.GONE
                     val intent = Intent(this, LoginActivity::class.java)
-                    Toast.makeText(this, "Registration successful", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this,
+                        getString(R.string.registration_successful), Toast.LENGTH_SHORT).show()
                     startActivity(intent)
                 }
                 is Result.Error -> {
 //                    binding.progressBar.visibility = View.GONE
-                    Toast.makeText(this, "Email is Already Taken", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this,
+                        getString(R.string.email_is_already_taken), Toast.LENGTH_SHORT).show()
                 }
             }
         }
-
-
-//        viewModel.createUserResult.observe(this) { result ->
-//            when(result) {
-//                is Result.Loading -> {}
-//                is Result.Success -> {
-//                    val user = result.data
-//                    // Tampilkan pesan sukses atau lakukan tindakan yang sesuai
-//                    Toast.makeText(this, "Registration successful", Toast.LENGTH_SHORT).show()
-//
-//                    // Pindahkan pengguna ke aktivitas lain setelah registrasi berhasil
-//                    val intent = Intent(this, LoginActivity::class.java) // Gantilah AktivitasLain dengan aktivitas yang sesuai
-//                    startActivity(intent)
-//                }
-//                is Result.Error -> {
-//                    val errorMessage = result.error
-//                    // Tampilkan pesan kesalahan atau lakukan penanganan kesalahan yang sesuai
-//                    Toast.makeText(this, "Kesalahan: $errorMessage", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//        }
 
 //        VALIDASDI EMAIL
         validEmail()
@@ -117,15 +95,15 @@ class RegisterActivity : AppCompatActivity() {
                 password.isErrorEnabled = false
 
                 if (!isUsernameValid(inputUsername)) {
-                    username.error = "Fill the username"
+                    username.error = getString(R.string.fill_the_username)
                 }
 
                 if (!isEmailValid(inputEmail)) {
-                    email.error = "Invalid email address"
+                    email.error = getString(R.string.invalid_email_address)
                 }
 
                 if (!isPasswordValid(inputPassword)) {
-                    password.error = "Minimal 8 character"
+                    password.error = getString(R.string.minimal_8_character)
                 }
 
             }
@@ -204,7 +182,7 @@ class RegisterActivity : AppCompatActivity() {
                 val isValid = Patterns.EMAIL_ADDRESS.matcher(email).matches()
 
                 if (!isValid) {
-                    inputEmailLayout.error = "Invalid email address"
+                    inputEmailLayout.error = getString(R.string.invalid_email_address)
                 } else {
                     // Hapus pesan kesalahan jika email valid
                     inputEmailLayout.isErrorEnabled = false
@@ -223,12 +201,6 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun isPasswordValid(password: String): Boolean {
-        return password.length >= 8 // Contoh: Password harus memiliki panjang minimal 6 karakter
+        return password.length >= 8
     }
-//    private fun setupUser(username: String, email: String, password: String) {
-//        viewModel.saveUser(listOf(UserModel(username, email, password, isLogin = true)))
-//    }
-//    private fun createUser(username: String, email: String, password: String) {
-//        viewModel.createUser(username, email, password)
-//    }
 }

@@ -16,6 +16,7 @@ import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import com.aryasurya.adoptpet.R
 import com.aryasurya.adoptpet.databinding.ActivityCameraBinding
 import com.aryasurya.adoptpet.helper.createCustomTempFile
 
@@ -91,7 +92,8 @@ class CameraActivity : AppCompatActivity() {
                     this, cameraSelector, preview, imageCapture
                 )
             } catch (exc: Exception) {
-                Toast.makeText(this@CameraActivity, "gagal memunculkan kamera", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@CameraActivity,
+                    getString(R.string.failed_to_get_camera), Toast.LENGTH_SHORT).show()
                 Log.e(TAG , "startCamera: ${exc.message}" )
             }
         }, ContextCompat.getMainExecutor(this))
@@ -114,7 +116,7 @@ class CameraActivity : AppCompatActivity() {
                 override fun onError(exc: ImageCaptureException) {
                     Toast.makeText(
                         this@CameraActivity,
-                        "Gagal mengambil gambar.",
+                        getString(R.string.failed_to_get_image),
                         Toast.LENGTH_SHORT
                     ).show()
                     Log.e(TAG , "onError: ${exc.message}")

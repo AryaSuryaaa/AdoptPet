@@ -6,10 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aryasurya.adoptpet.data.Result
 import com.aryasurya.adoptpet.data.UserRepository
-import com.aryasurya.adoptpet.data.pref.UserModel
 import com.aryasurya.adoptpet.data.remote.response.CreateUserResponse
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class RegisterViewModel(private val repository: UserRepository): ViewModel() {

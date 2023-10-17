@@ -2,10 +2,7 @@ package com.aryasurya.adoptpet.ui.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.Button
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
@@ -16,13 +13,11 @@ import com.aryasurya.adoptpet.ui.ViewModelFactory
 import com.aryasurya.adoptpet.ui.addpost.AddPostActivity
 import com.aryasurya.adoptpet.ui.login.LoginActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.bottomsheet.BottomSheetDialog
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var dialog: BottomSheetDialog
 
     private val mainViewModel by viewModels<MainViewModel> {
         ViewModelFactory.getInstance(this)
@@ -50,8 +45,8 @@ class MainActivity : AppCompatActivity() {
         // Observasi perubahan fragment
         navController.addOnDestinationChangedListener { _, destination, _ ->
             val fragmentTitle = when (destination.id) {
-                R.id.accountFragment -> "$nameUser"
-                R.id.listFragment -> "List Story"
+                R.id.accountFragment -> nameUser
+                R.id.listFragment -> getString(R.string.list_story)
                 else -> getString(R.string.app_name)
             }
 

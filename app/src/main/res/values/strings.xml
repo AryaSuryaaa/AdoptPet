@@ -20,4 +20,23 @@
     <string name="eror_text">Minimal 8 character</string>
     <string name="confirm_password_eror_text">Password not match</string>
     <string name="input_confirm_password">Input confirm password</string>
+    <string name="registration_successful">Registration successful</string>
+    <string name="email_is_already_taken">Email is Already Taken</string>
+    <string name="fill_the_username">Fill the username</string>
+    <string name="invalid_email_address">Invalid email address</string>
+    <string name="minimal_8_character">Minimal 8 character</string>
+    <string name="list_story">List Story</string>
+    <string name="username_password_is_incorrect">Username/password is incorrect</string>
+    <string name="failed_to_get_camera">Failed to get camera</string>
+    <string name="failed_to_get_image">Failed to get Image.</string>
+    <string name="permission_request_granted">Permission request granted</string>
+    <string name="permission_request_denied">Permission request denied</string>
+    <string name="upload_successful">Upload successful</string>
+    <string name="upload_failed">Upload failed</string>
+    <string name="choose_from">Choose From</string>
+    <string name="take_photo">Take photo</string>
+    <string name="gallery">Gallery</string>
+    <string name="cancel">Cancel</string>
+    <string name="account">account</string>
+    <string name="home">home</string>
 </resources>

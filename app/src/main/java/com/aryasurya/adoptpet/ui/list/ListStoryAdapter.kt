@@ -32,7 +32,6 @@ class ListStoryAdapter : ListAdapter<ListStoryItem, ListStoryAdapter.MyViewHolde
         }
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup , viewType: Int): MyViewHolder {
         val binding = StoryItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MyViewHolder(binding)

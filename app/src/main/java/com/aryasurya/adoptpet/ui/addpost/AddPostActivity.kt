@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
@@ -38,17 +37,14 @@ class AddPostActivity : AppCompatActivity() {
         ViewModelFactory.getInstance(this)
     }
 
-    private var loadingStartTime: Long = 0
-    private var progressHandler: Handler? = null
-
     // CEK PERMISSION IMAGE
     private var currentImageUri: Uri? = null
 
     private val requestPermissLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
         if (isGranted) {
-            Toast.makeText(this, "Permission request granted", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.permission_request_granted), Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(this, "Permission request denied", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.permission_request_denied), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -96,13 +92,13 @@ class AddPostActivity : AppCompatActivity() {
                     val intent = Intent(this, MainActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                     startActivity(intent)
-                    Toast.makeText(this, "Upload successful", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.upload_successful), Toast.LENGTH_SHORT).show()
                 }
                 is Result.Error -> {
                     binding.overlayLoading.visibility = View.GONE
                     window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                     binding.lineProgressBar.visibility = View.GONE
-                    Toast.makeText(this, "Upload failed", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, getString(R.string.upload_failed), Toast.LENGTH_SHORT).show()
                 }
 
                 else -> {}
@@ -132,9 +128,10 @@ class AddPostActivity : AppCompatActivity() {
     }
 
     private fun selectImage() {
-        val optionActions = arrayOf<CharSequence>("Take photo", "Gallery", "Cancel")
+        val optionActions = arrayOf<CharSequence>(getString(R.string.take_photo),
+            getString(R.string.gallery), getString(R.string.cancel))
         val dialogBuilder = AlertDialog.Builder(this)
-        dialogBuilder.setTitle("Choose From")
+        dialogBuilder.setTitle(getString(R.string.choose_from))
         dialogBuilder.setIcon(R.mipmap.ic_launcher)
         dialogBuilder.setItems(optionActions) { dialogInterface, i ->
             when(i) {

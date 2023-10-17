@@ -3,7 +3,6 @@ package com.aryasurya.adoptpet.data.remote.retrofit
 import com.aryasurya.adoptpet.data.remote.response.CreateUserResponse
 import com.aryasurya.adoptpet.data.remote.response.DetailStoriesResponse
 import com.aryasurya.adoptpet.data.remote.response.FileUploadResponse
-import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.data.remote.response.LoginResponse
 import com.aryasurya.adoptpet.data.remote.response.StoriesResponse
 import okhttp3.MultipartBody
@@ -25,7 +24,6 @@ interface ApiService {
         @Field("email") email: String,
         @Field("password") string: String
     ): CreateUserResponse
-
 
     @FormUrlEncoded
     @POST("login")

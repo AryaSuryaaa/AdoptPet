@@ -1,4 +1,4 @@
-package com.aryasurya.adoptpet.ui.list
+package com.aryasurya.adoptpet.ui.account
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.databinding.MyStoryItemBinding
-import com.aryasurya.adoptpet.databinding.StoryItemBinding
 import com.bumptech.glide.Glide
 
 class AccountAdapter : ListAdapter<ListStoryItem, AccountAdapter.MyViewHolder>(DIFF_CALLBACK){

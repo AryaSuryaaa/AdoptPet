@@ -6,12 +6,10 @@ import androidx.lifecycle.liveData
 import com.aryasurya.adoptpet.data.pref.UserModel
 import com.aryasurya.adoptpet.data.pref.UserPreference
 import com.aryasurya.adoptpet.data.remote.response.CreateUserResponse
-import com.aryasurya.adoptpet.data.remote.response.DetailStoriesResponse
 import com.aryasurya.adoptpet.data.remote.response.ErrorResponse
 import com.aryasurya.adoptpet.data.remote.response.FileUploadResponse
 import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.data.remote.response.LoginResponse
-import com.aryasurya.adoptpet.data.remote.response.StoriesResponse
 import com.aryasurya.adoptpet.data.remote.response.Story
 import com.aryasurya.adoptpet.data.remote.retrofit.ApiService
 import com.google.gson.Gson
@@ -78,8 +76,6 @@ class UserRepository private constructor(
         } catch (e: Exception) {
             emit(Result.Error(e.message ?: "An error occurred"))
         }
-//        Log.d("createUser" , "createUser: ${response.message}")
-//        if (user != null) emit(Result.Success(user))
     }
 
     fun listStory(): LiveData<Result<List<ListStoryItem>>> = liveData {
@@ -129,7 +125,6 @@ class UserRepository private constructor(
             emit(Result.Error(e.message ?: "An error occurred"))
         }
     }
-
 
     companion object {
         @Volatile
