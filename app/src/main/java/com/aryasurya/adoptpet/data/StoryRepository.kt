@@ -6,20 +6,32 @@ import com.aryasurya.adoptpet.data.pref.UserPreference
 import com.aryasurya.adoptpet.data.remote.response.FileUploadResponse
 import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.data.remote.response.Story
+import com.aryasurya.adoptpet.data.remote.retrofit.ApiConfig
 import com.aryasurya.adoptpet.data.remote.retrofit.ApiService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+
 class StoryRepository private constructor(
     private val apiService: ApiService ,
     private val userPreference: UserPreference ,
 ) {
     fun listStory(): LiveData<List<ListStoryItem>> = liveData {
         emit(emptyList())
-        val response = apiService.getStories()
-        val stories = response.listStory
-        emit(stories)
+        val token = userPreference.getToken()
+        val apiService = ApiConfig.getApiService(token.toString())
+        try {
+            val response = apiService.getStories()
+            val stories = response.listStory
+            if (!response.error) {
+                emit(stories)
+            } else {
+                emit(emptyList())
+            }
+        } catch (e: Exception) {
+            emit(emptyList())
+        }
     }
 
     suspend fun detailStory(id: String): Flow<Result<Story>> = flow {
