@@ -46,4 +46,7 @@
     <string name="are_you_sure_you_want_to_log_out">Are you sure you want to log out?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="network_error">Network error</string>
+    <string name="an_error_occurred_please_try_again_later">An error occurred. Please try again later</string>
+    <string name="server_timeout">Server timeout</string>
 </resources>

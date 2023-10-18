@@ -1,9 +1,12 @@
 package com.aryasurya.adoptpet.ui.detailpost
 
+import android.content.Context
+import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
+import com.aryasurya.adoptpet.R
 import com.aryasurya.adoptpet.data.Result
 import com.aryasurya.adoptpet.databinding.ActivityDetailPostBinding
 import com.aryasurya.adoptpet.ui.ViewModelFactory
@@ -22,9 +25,12 @@ class DetailPostActivity : AppCompatActivity() {
         binding = ActivityDetailPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Di dalam sebuah Activity
-        val receivedId = intent.getStringExtra("idUser")
-        viewModel.detailStory(receivedId.toString())
+        val receivedId = intent.getStringExtra("idUser").toString()
+        val receivedName = intent.getStringExtra("name").toString()
+        val receivedDesc = intent.getStringExtra("desc").toString()
+        val receivedPhoto = intent.getStringExtra("photo").toString()
+        viewModel.detailStory(receivedId)
+
 
         viewModel.detailResult.observe(this) { result ->
             when(result) {
@@ -35,10 +41,12 @@ class DetailPostActivity : AppCompatActivity() {
                         result.data.photoUrl ,
                         result.data.description
                     )
-                    Toast.makeText(this, "berhasil", Toast.LENGTH_SHORT).show()
                 }
                 is Result.Error -> {
-                    Toast.makeText(this, "error", Toast.LENGTH_SHORT).show()
+                    if (!isInternetAvailable()) {
+                        setDetailStory(receivedName, receivedPhoto, receivedDesc)
+                    }
+                    Toast.makeText(this, getString(R.string.network_error), Toast.LENGTH_SHORT).show()
                 }
                 else -> {}
             }
@@ -47,6 +55,12 @@ class DetailPostActivity : AppCompatActivity() {
         binding.fabDetail.setOnClickListener {
             finish()
         }
+    }
+
+    private fun isInternetAvailable(): Boolean {
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connectivityManager.activeNetworkInfo
+        return networkInfo != null && networkInfo.isConnected
     }
 
     private fun setDetailStory(name: String, img: String, desc: String) {
