@@ -11,6 +11,7 @@ import com.aryasurya.adoptpet.R
 import com.aryasurya.adoptpet.data.Result
 import com.aryasurya.adoptpet.data.pref.UserModel
 import com.aryasurya.adoptpet.databinding.ActivityLoginBinding
+import com.aryasurya.adoptpet.helper.isInternetAvailable
 import com.aryasurya.adoptpet.ui.register.RegisterActivity
 import com.aryasurya.adoptpet.ui.ViewModelFactory
 import com.aryasurya.adoptpet.ui.main.MainActivity
@@ -57,8 +58,12 @@ class LoginActivity : AppCompatActivity() {
                 is Result.Error -> {
                     binding.overlayLoading.visibility = View.GONE
                     window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
-                    Toast.makeText(this,
-                        getString(R.string.username_password_is_incorrect), Toast.LENGTH_SHORT).show()
+                    if (!isInternetAvailable(this)) {
+                        Toast.makeText(this, getString(R.string.network_error), Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(this,
+                            getString(R.string.username_password_is_incorrect), Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }

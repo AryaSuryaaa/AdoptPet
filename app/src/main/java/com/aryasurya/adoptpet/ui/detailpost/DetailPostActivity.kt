@@ -9,6 +9,7 @@ import androidx.activity.viewModels
 import com.aryasurya.adoptpet.R
 import com.aryasurya.adoptpet.data.Result
 import com.aryasurya.adoptpet.databinding.ActivityDetailPostBinding
+import com.aryasurya.adoptpet.helper.isInternetAvailable
 import com.aryasurya.adoptpet.ui.ViewModelFactory
 import com.aryasurya.adoptpet.ui.list.ListStoryViewModel
 import com.bumptech.glide.Glide
@@ -43,7 +44,7 @@ class DetailPostActivity : AppCompatActivity() {
                     )
                 }
                 is Result.Error -> {
-                    if (!isInternetAvailable()) {
+                    if (!isInternetAvailable(this)) {
                         setDetailStory(receivedName, receivedPhoto, receivedDesc)
                     }
                     Toast.makeText(this, getString(R.string.network_error), Toast.LENGTH_SHORT).show()
@@ -55,12 +56,6 @@ class DetailPostActivity : AppCompatActivity() {
         binding.fabDetail.setOnClickListener {
             finish()
         }
-    }
-
-    private fun isInternetAvailable(): Boolean {
-        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkInfo = connectivityManager.activeNetworkInfo
-        return networkInfo != null && networkInfo.isConnected
     }
 
     private fun setDetailStory(name: String, img: String, desc: String) {

@@ -17,6 +17,7 @@ import com.aryasurya.adoptpet.R
 import com.aryasurya.adoptpet.data.Result
 import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.databinding.FragmentListBinding
+import com.aryasurya.adoptpet.helper.isInternetAvailable
 import com.aryasurya.adoptpet.ui.ViewModelFactory
 import com.aryasurya.adoptpet.ui.detailpost.DetailPostActivity
 import com.aryasurya.adoptpet.ui.login.LoginActivity
@@ -51,18 +52,10 @@ class ListFragment : Fragment() {
         }
     }
 
-
-
-    private fun isInternetAvailable(): Boolean {
-        val connectivityManager = requireContext().getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkInfo = connectivityManager.activeNetworkInfo
-        return networkInfo != null && networkInfo.isConnected
-    }
-
     private fun showRecyclerView() {
         binding.swipeRefreshLayout.isRefreshing = false
 
-        if (!isInternetAvailable()) {
+        if (!isInternetAvailable(requireContext())) {
             Toast.makeText(requireContext(), "No internet connection.", Toast.LENGTH_SHORT).show()
             return
         }
