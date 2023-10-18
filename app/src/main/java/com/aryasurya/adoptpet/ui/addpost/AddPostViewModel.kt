@@ -5,13 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aryasurya.adoptpet.data.Result
+import com.aryasurya.adoptpet.data.StoryRepository
 import com.aryasurya.adoptpet.data.UserRepository
 import com.aryasurya.adoptpet.data.remote.response.FileUploadResponse
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
-class AddPostViewModel(private val repository: UserRepository): ViewModel() {
+class AddPostViewModel(private val repository: StoryRepository): ViewModel() {
 
     private val _postResult = MutableLiveData<Result<FileUploadResponse>>()
     val postResult: LiveData<Result<FileUploadResponse>> = _postResult

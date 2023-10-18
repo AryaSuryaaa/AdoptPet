@@ -3,15 +3,30 @@ package com.aryasurya.adoptpet.ui.list
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.aryasurya.adoptpet.data.Result
+import com.aryasurya.adoptpet.data.StoryRepository
 import com.aryasurya.adoptpet.data.UserRepository
+import com.aryasurya.adoptpet.data.pref.UserModel
 import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.data.remote.response.Story
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
-class ListStoryViewModel(private val repository: UserRepository) : ViewModel() {
-    val listStory: LiveData<Result<List<ListStoryItem>>> = repository.listStory()
+class ListStoryViewModel(private val repository: StoryRepository) : ViewModel() {
+//    private val _lisResult = MutableLiveData<Result<List<ListStoryItem>>?>()
+//    val listResult: LiveData<Result<List<ListStoryItem>>?> = _lisResult
+//
+//    fun listStory() {
+//        viewModelScope.launch {
+//            repository.listStory().collect{ result ->
+//                _lisResult.value = result
+//            }
+//        }
+//    }
+
+    fun listStory(): LiveData<List<ListStoryItem>> = repository.listStory()
 
     private val _detailResult = MutableLiveData<Result<Story>>()
     val detailResult: LiveData<Result<Story>> = _detailResult

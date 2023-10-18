@@ -27,6 +27,17 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.tvRegisRight.setOnClickListener {
+            val intent = Intent(this, RegisterActivity::class.java)
+            startActivity(intent)
+        }
+
+        viewModel.getSession().observe(this) { user ->
+            if (user.isLogin) {
+                startActivity(Intent(this, MainActivity::class.java))
+            }
+        }
+
         viewModel.loginResult.observe(this) { result ->
             when(result) {
                 is Result.Loading -> {
@@ -40,9 +51,7 @@ class LoginActivity : AppCompatActivity() {
                     binding.overlayLoading.visibility = View.GONE
                     window.clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE)
                     viewModel.saveSession(UserModel(result.data.loginResult.name, result.data.loginResult.token))
-
                     val intent = Intent(this, MainActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                     startActivity(intent)
                 }
                 is Result.Error -> {
@@ -52,11 +61,6 @@ class LoginActivity : AppCompatActivity() {
                         getString(R.string.username_password_is_incorrect), Toast.LENGTH_SHORT).show()
                 }
             }
-        }
-
-        binding.tvRegisRight.setOnClickListener {
-            val intent = Intent(this, RegisterActivity::class.java)
-            startActivity(intent)
         }
 
         binding.btnLogin.setOnClickListener {

@@ -1,6 +1,7 @@
 package com.aryasurya.adoptpet.di
 
 import android.content.Context
+import com.aryasurya.adoptpet.data.StoryRepository
 import com.aryasurya.adoptpet.data.UserRepository
 import com.aryasurya.adoptpet.data.pref.UserPreference
 import com.aryasurya.adoptpet.data.pref.dataStore
@@ -13,6 +14,14 @@ object Injection {
         val pref = UserPreference.getInstance(context.dataStore)
         val user = runBlocking { pref.getSession().first() }
         val apiService = ApiConfig.getApiService(user.token)
-        return UserRepository.getInstance(apiService, pref)
+        val userPreference = UserPreference.getInstance(context.dataStore)
+        return UserRepository.getInstance(apiService, userPreference)
+    }
+
+    fun storyRepository(context: Context):StoryRepository {
+        val pref = UserPreference.getInstance(context.dataStore)
+        val user = runBlocking { pref.getSession().first() }
+        val apiService = ApiConfig.getApiService(user.token)
+        return StoryRepository.getInstance(apiService, pref)
     }
 }

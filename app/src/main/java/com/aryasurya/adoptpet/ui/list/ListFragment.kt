@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +14,8 @@ import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.databinding.FragmentListBinding
 import com.aryasurya.adoptpet.ui.ViewModelFactory
 import com.aryasurya.adoptpet.ui.detailpost.DetailPostActivity
+import com.aryasurya.adoptpet.ui.login.LoginActivity
+import java.net.SocketTimeoutException
 
 class ListFragment : Fragment() {
 
@@ -35,26 +38,30 @@ class ListFragment : Fragment() {
 
         val layoutManager = LinearLayoutManager(requireContext())
         binding.rvListStory.layoutManager = layoutManager
-        binding.rvListStory.adapter = adapter
 
-        viewModel.listStory.observe(viewLifecycleOwner) { result ->
-            when (result) {
-                is Result.Loading -> {
-                    binding.pbListStory.visibility = View.VISIBLE
-                }
-                is Result.Success -> {
-                    binding.pbListStory.visibility = View.GONE
-                    setListStory(result.data)
-                }
-                is Result.Error -> {
-                    binding.pbListStory.visibility = View.GONE
-                }
-                else -> {}
+        showRecyclerView()
+        binding.swipeRefreshLayout.setOnRefreshListener {
+            showRecyclerView()
+        }
+    }
+
+    private fun showRecyclerView() {
+        binding.swipeRefreshLayout.isRefreshing = false
+        try {
+            viewModel.listStory().observe(viewLifecycleOwner) { story ->
+                setListStory(story)
             }
+        } catch (e: SocketTimeoutException) {
+            Toast.makeText(requireContext(), "Waktu habis saat mengambil data dari server.", Toast.LENGTH_SHORT)
+                .show()
+        } catch (e: Exception) {
+            Toast.makeText(requireContext(), "Terjadi kesalahan. Silakan coba lagi nanti.", Toast.LENGTH_SHORT)
+                .show()
         }
     }
     private fun setListStory(listStory: List<ListStoryItem>) {
         adapter.submitList(listStory)
+        binding.rvListStory.adapter = adapter
 
         adapter.setOnItemClickCallback(object : ListStoryAdapter.OnItemClickCallback {
             override fun onItemClicked(data: ListStoryItem) {

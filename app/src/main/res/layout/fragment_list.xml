@@ -7,17 +7,22 @@
     tools:context=".ui.list.ListFragment"
     android:background="?attr/colorSurfaceVariant">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_list_story"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:paddingTop="16dp"
-        tools:listitem="@layout/story_item"
-        android:layout_marginHorizontal="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="16dp">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_list_story"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:paddingTop="16dp"
+            tools:listitem="@layout/story_item"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <ProgressBar
         android:id="@+id/pb_list_story"

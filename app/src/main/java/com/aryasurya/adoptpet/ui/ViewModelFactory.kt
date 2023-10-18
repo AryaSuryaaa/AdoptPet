@@ -3,6 +3,7 @@ package com.aryasurya.adoptpet.ui
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.aryasurya.adoptpet.data.StoryRepository
 import com.aryasurya.adoptpet.data.UserRepository
 import com.aryasurya.adoptpet.di.Injection
 import com.aryasurya.adoptpet.ui.account.AccountViewModel
@@ -12,7 +13,10 @@ import com.aryasurya.adoptpet.ui.login.LoginViewModel
 import com.aryasurya.adoptpet.ui.main.MainViewModel
 import com.aryasurya.adoptpet.ui.register.RegisterViewModel
 
-class ViewModelFactory(private val repository: UserRepository) : ViewModelProvider.NewInstanceFactory() {
+class ViewModelFactory(
+    private val repository: UserRepository,
+    private val storyRepository: StoryRepository
+) : ViewModelProvider.NewInstanceFactory() {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return when {
@@ -26,13 +30,13 @@ class ViewModelFactory(private val repository: UserRepository) : ViewModelProvid
                 MainViewModel(repository) as T
             }
             modelClass.isAssignableFrom(ListStoryViewModel::class.java) -> {
-                ListStoryViewModel(repository) as T
+                ListStoryViewModel(storyRepository) as T
             }
             modelClass.isAssignableFrom(AccountViewModel::class.java) -> {
-                AccountViewModel(repository) as T
+                AccountViewModel(storyRepository) as T
             }
             modelClass.isAssignableFrom(AddPostViewModel::class.java) -> {
-                AddPostViewModel(repository) as T
+                AddPostViewModel(storyRepository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel Class: " + modelClass.name)
         }
@@ -46,7 +50,8 @@ class ViewModelFactory(private val repository: UserRepository) : ViewModelProvid
         fun getInstance(context: Context) =
             INSTANCE ?: synchronized(this) {
                 INSTANCE ?: ViewModelFactory(
-                    Injection.provideRepository(context)
+                    Injection.provideRepository(context) ,
+                    Injection.storyRepository(context)
                 )
             }.also { INSTANCE = it }
     }

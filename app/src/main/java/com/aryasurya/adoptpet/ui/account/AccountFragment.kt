@@ -15,11 +15,16 @@ import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.databinding.FragmentAccountBinding
 import com.aryasurya.adoptpet.ui.ViewModelFactory
 import com.aryasurya.adoptpet.ui.detailpost.DetailPostActivity
+import com.aryasurya.adoptpet.ui.login.LoginViewModel
 
 class AccountFragment : Fragment() {
 
     private lateinit var binding: FragmentAccountBinding
     private val viewModel by viewModels<AccountViewModel> {
+        ViewModelFactory.getInstance(requireActivity())
+    }
+
+    private val userViewModel by viewModels<LoginViewModel> {
         ViewModelFactory.getInstance(requireActivity())
     }
 
@@ -42,7 +47,7 @@ class AccountFragment : Fragment() {
             val builder = AlertDialog.Builder(requireActivity())
             builder.setMessage(getString(R.string.are_you_sure_you_want_to_log_out))
             builder.setPositiveButton(getString(R.string.yes)) { dialog , _ ->
-                viewModel.logout()
+                userViewModel.logout()
                 dialog.dismiss()
             }
             builder.setNegativeButton(getString(R.string.no)) { dialog , _ ->
@@ -56,7 +61,7 @@ class AccountFragment : Fragment() {
         binding.rvMyListStory.layoutManager = layoutManager
         binding.rvMyListStory.adapter = adapter
 
-        viewModel.getSession().observe(requireActivity()) {
+        userViewModel.getSession().observe(requireActivity()) {
             nameUser = it.username
         }
 
@@ -69,7 +74,7 @@ class AccountFragment : Fragment() {
                     binding.pbMyListStory.visibility = View.GONE
 
                     if (result.data.isNotEmpty()) {
-                        binding.tvNoData.visibility = View.VISIBLE
+                        binding.tvNoData.visibility = View.GONE
                         setListMyStory(result.data)
                     } else {
                         binding.tvNoData.visibility = View.VISIBLE
@@ -94,6 +99,4 @@ class AccountFragment : Fragment() {
             }
         })
     }
-
-
 }

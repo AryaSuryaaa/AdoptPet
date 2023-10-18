@@ -72,55 +72,8 @@ class UserRepository private constructor(
         try {
             // Panggil metode createUser pada apiService
             val response = apiService.login(email, password)
+            userPreference.saveSession(UserModel(response.loginResult.name,response.loginResult.token))
             emit(Result.Success(response))
-        } catch (e: Exception) {
-            emit(Result.Error(e.message ?: "An error occurred"))
-        }
-    }
-
-    fun listStory(): LiveData<Result<List<ListStoryItem>>> = liveData {
-        emit(Result.Loading)
-        try {
-            val response = apiService.getStories()
-            val stories = response.listStory
-            emit(Result.Success(stories))
-        } catch (e: Exception) {
-            emit(Result.Error(e.message ?: "An error occurred"))
-        }
-    }
-
-    suspend fun postStory(multipartBody: MultipartBody.Part, description: RequestBody): Flow<Result<FileUploadResponse>> = flow {
-        emit(Result.Loading)
-        try {
-            val response = apiService.postStory(multipartBody, description)
-            emit(Result.Success(response))
-        } catch (e: Exception) {
-            emit(Result.Error(e.message ?: "An error occurred"))
-        }
-    }
-
-    suspend fun detailStory(id: String): Flow<Result<Story>> = flow {
-        emit(Result.Loading)
-        try {
-            val response = apiService.getDetailStory(id)
-            val story = response.story
-            emit(Result.Success(story))
-        } catch (e: Exception) {
-            emit(Result.Error(e.message ?: "An error occurred"))
-        }
-    }
-
-    fun myStory(name: String): LiveData<Result<List<ListStoryItem>>> = liveData {
-        emit(Result.Loading)
-        try {
-            val response = apiService.getStories()
-            val result = response.listStory
-
-            val filterName = result.filter { story ->
-                story.name == name
-            }
-
-            emit(Result.Success(filterName))
         } catch (e: Exception) {
             emit(Result.Error(e.message ?: "An error occurred"))
         }
