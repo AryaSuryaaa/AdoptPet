@@ -8,9 +8,19 @@
         android:title="@string/home"/>
 
     <item
+        android:id="@+id/mapsFragment"
+        android:icon="@drawable/baseline_location_on_24"
+        android:title="@string/location"/>
+
+    <item
         android:id="@+id/addPostActivity"
         android:icon="@drawable/baseline_add_circle_24"
         android:title="" />
+
+    <item
+        android:id="@+id/notificationFragment"
+        android:icon="@drawable/baseline_notifications_24"
+        android:title="@string/notification"/>
 
     <item
         android:id="@+id/accountFragment"

@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
             val fragmentTitle = when (destination.id) {
                 R.id.accountFragment -> nameUser
                 R.id.listFragment -> getString(R.string.list_story)
+                R.id.mapsFragment -> getString(R.string.location)
                 else -> getString(R.string.app_name)
             }
 

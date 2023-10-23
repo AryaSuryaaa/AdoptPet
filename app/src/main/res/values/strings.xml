@@ -35,8 +35,8 @@
     <string name="take_photo">Take photo</string>
     <string name="gallery">Gallery</string>
     <string name="cancel">Cancel</string>
-    <string name="account">account</string>
-    <string name="home">home</string>
+    <string name="account">Account</string>
+    <string name="home">Home</string>
     <string name="add_picture">Add Picture</string>
     <string name="data">Data</string>
     <string name="description">description</string>
@@ -50,4 +50,6 @@
     <string name="an_error_occurred_please_try_again_later">An error occurred. Please try again later</string>
     <string name="server_timeout">Server timeout</string>
     <string name="retry">Try again</string>
+    <string name="location">Location</string>
+    <string name="notification">Notification</string>
 </resources>

@@ -36,8 +36,8 @@
     <string name="take_photo">Tomar foto</string>
     <string name="gallery">Galería</string>
     <string name="cancel">Cancelar</string>
-    <string name="account">cuenta</string>
-    <string name="home">pagina de inicio</string>
+    <string name="account">Cuenta</string>
+    <string name="home">Pagina de inicio</string>
     <string name="add_picture">Añade una foto</string>
     <string name="data">Data</string>
     <string name="description">descripción</string>
@@ -51,4 +51,6 @@
     <string name="an_error_occurred_please_try_again_later">Ocurrió un error. Por favor, inténtelo de nuevo más tarde</string>
     <string name="server_timeout">Tiempo de espera del servidor</string>
     <string name="retry">Intentar otra vez</string>
+    <string name="location">Ubicación</string>
+    <string name="notification">Notificación</string>
 </resources>

@@ -36,8 +36,8 @@
     <string name="take_photo">Ambil gambar</string>
     <string name="gallery">Galeri</string>
     <string name="cancel">Batalkan</string>
-    <string name="account">akun</string>
-    <string name="home">beranda</string>
+    <string name="account">Akun</string>
+    <string name="home">Beranda</string>
     <string name="add_picture">Tambahkan Gambar</string>
     <string name="data">Data</string>
     <string name="description">deskripsi</string>
@@ -51,4 +51,6 @@
     <string name="an_error_occurred_please_try_again_later">Terjadi kesalahan. Silakan coba lagi nanti</string>
     <string name="server_timeout">Batas waktu server habis</string>
     <string name="retry">Coba lagi</string>
+    <string name="location">Lokasi</string>
+    <string name="notification">Notifikasi</string>
 </resources>
