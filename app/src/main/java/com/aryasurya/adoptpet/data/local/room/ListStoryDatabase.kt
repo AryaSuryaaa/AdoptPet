@@ -1,4 +1,4 @@
-package com.aryasurya.adoptpet.data.database
+package com.aryasurya.adoptpet.data.local.room
 
 import android.content.Context
 import androidx.room.Database
@@ -12,6 +12,7 @@ import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
     exportSchema = false
 )
 abstract class ListStoryDatabase : RoomDatabase() {
+    abstract fun storyDao(): StoryDao
     companion object {
         @Volatile
         private var INSTANCE: ListStoryDatabase? = null

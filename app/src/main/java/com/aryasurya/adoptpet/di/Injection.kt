@@ -3,7 +3,7 @@ package com.aryasurya.adoptpet.di
 import android.content.Context
 import com.aryasurya.adoptpet.data.StoryRepository
 import com.aryasurya.adoptpet.data.UserRepository
-import com.aryasurya.adoptpet.data.database.ListStoryDatabase
+import com.aryasurya.adoptpet.data.local.room.ListStoryDatabase
 import com.aryasurya.adoptpet.data.pref.UserPreference
 import com.aryasurya.adoptpet.data.pref.dataStore
 import com.aryasurya.adoptpet.data.remote.retrofit.ApiConfig

@@ -2,24 +2,25 @@ package com.aryasurya.adoptpet.data
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.liveData
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.liveData
-import com.aryasurya.adoptpet.data.database.ListStoryDatabase
+import com.aryasurya.adoptpet.data.local.StoryRemoteMediator
+import com.aryasurya.adoptpet.data.local.room.ListStoryDatabase
 import com.aryasurya.adoptpet.data.pref.UserPreference
 import com.aryasurya.adoptpet.data.remote.response.FileUploadResponse
 import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.data.remote.response.Story
-import com.aryasurya.adoptpet.data.remote.retrofit.ApiConfig
 import com.aryasurya.adoptpet.data.remote.retrofit.ApiService
-import com.aryasurya.adoptpet.data.paging.StoryPagingSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 
 class StoryRepository private constructor(
+    private val storyDatabase: ListStoryDatabase,
     private val apiService: ApiService ,
     private val userPreference: UserPreference ,
 ) {
@@ -40,13 +41,16 @@ class StoryRepository private constructor(
 //            emit(emptyList())
 //        }
 //    }
-    fun listStory(): LiveData<PagingData<ListStoryItem>> {
+@OptIn(ExperimentalPagingApi::class)
+fun listStory(): LiveData<PagingData<ListStoryItem>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 5
             ),
+            remoteMediator = StoryRemoteMediator(storyDatabase, apiService),
             pagingSourceFactory = {
-                StoryPagingSource(userPreference)
+//                StoryPagingSource(userPreference)
+                storyDatabase.storyDao().getAllStory()
             }
         ).liveData
     }
@@ -96,7 +100,7 @@ class StoryRepository private constructor(
             apiService: ApiService ,
             userPreference: UserPreference ,
         ) = instance ?: synchronized(this) {
-            instance ?: StoryRepository(apiService, userPreference)
+            instance ?: StoryRepository(database, apiService, userPreference)
         }.also { instance = it }
     }
 }
