@@ -47,4 +47,8 @@
     <string name="are_you_sure_you_want_to_log_out">¿Está seguro de que desea cerrar sesión?</string>
     <string name="yes">Sí</string>
     <string name="no">No</string>
+    <string name="network_error">Error de red</string>
+    <string name="an_error_occurred_please_try_again_later">Ocurrió un error. Por favor, inténtelo de nuevo más tarde</string>
+    <string name="server_timeout">Tiempo de espera del servidor</string>
+    <string name="retry">Intentar otra vez</string>
 </resources>

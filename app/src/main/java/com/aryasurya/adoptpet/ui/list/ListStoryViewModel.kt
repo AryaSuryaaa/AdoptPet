@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.aryasurya.adoptpet.data.Result
 import com.aryasurya.adoptpet.data.StoryRepository
 import com.aryasurya.adoptpet.data.UserRepository
@@ -26,7 +28,8 @@ class ListStoryViewModel(private val repository: StoryRepository) : ViewModel() 
 //        }
 //    }
 
-    fun listStory(): LiveData<List<ListStoryItem>> = repository.listStory()
+//    fun listStory(): LiveData<List<ListStoryItem>> = repository.listStory()
+    val listStory: LiveData<PagingData<ListStoryItem>> = repository.listStory().cachedIn(viewModelScope)
 
     private val _detailResult = MutableLiveData<Result<Story>>()
     val detailResult: LiveData<Result<Story>> = _detailResult

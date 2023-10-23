@@ -1,5 +1,7 @@
 package com.aryasurya.adoptpet.data.remote.response
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 data class StoriesResponse(
@@ -14,8 +16,10 @@ data class StoriesResponse(
 	val message: String
 )
 
+@Entity(tableName = "story")
 data class ListStoryItem(
 
+	@PrimaryKey
 	@field:SerializedName("id")
 	val id: String,
 

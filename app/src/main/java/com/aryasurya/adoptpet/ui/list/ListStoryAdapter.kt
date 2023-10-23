@@ -2,15 +2,15 @@ package com.aryasurya.adoptpet.ui.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.databinding.StoryItemBinding
 import com.aryasurya.adoptpet.helper.withDateFormat
 import com.bumptech.glide.Glide
 
-class ListStoryAdapter : ListAdapter<ListStoryItem, ListStoryAdapter.MyViewHolder>(DIFF_CALLBACK){
+class ListStoryAdapter : PagingDataAdapter<ListStoryItem, ListStoryAdapter.MyViewHolder>(DIFF_CALLBACK){
 
     private lateinit var onItemClickCallBack: OnItemClickCallback
 
@@ -40,10 +40,12 @@ class ListStoryAdapter : ListAdapter<ListStoryItem, ListStoryAdapter.MyViewHolde
 
     override fun onBindViewHolder(holder: MyViewHolder , position: Int) {
         val item = getItem(position)
-        holder.bind(item)
+        if (item != null) {
+            holder.bind(item)
+        }
 
         holder.itemView.setOnClickListener {
-            onItemClickCallBack.onItemClicked(getItem(holder.adapterPosition))
+            getItem(holder.adapterPosition)?.let { it1 -> onItemClickCallBack.onItemClicked(it1) }
         }
     }
 

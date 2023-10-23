@@ -47,4 +47,8 @@
     <string name="are_you_sure_you_want_to_log_out">Apakah Anda yakin ingin logout?</string>
     <string name="yes">Ya</string>
     <string name="no">Tidak</string>
+    <string name="network_error">Kesalahan jaringan</string>
+    <string name="an_error_occurred_please_try_again_later">Terjadi kesalahan. Silakan coba lagi nanti</string>
+    <string name="server_timeout">Batas waktu server habis</string>
+    <string name="retry">Coba lagi</string>
 </resources>

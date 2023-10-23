@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aryasurya.adoptpet.R
 import com.aryasurya.adoptpet.data.Result
@@ -19,6 +20,7 @@ import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.databinding.FragmentListBinding
 import com.aryasurya.adoptpet.helper.isInternetAvailable
 import com.aryasurya.adoptpet.ui.ViewModelFactory
+import com.aryasurya.adoptpet.ui.adapter.LoadingStateAdapter
 import com.aryasurya.adoptpet.ui.detailpost.DetailPostActivity
 import com.aryasurya.adoptpet.ui.login.LoginActivity
 import java.net.SocketTimeoutException
@@ -44,7 +46,11 @@ class ListFragment : Fragment() {
 
         val layoutManager = LinearLayoutManager(requireContext())
         binding.rvListStory.layoutManager = layoutManager
-        binding.rvListStory.adapter = adapter
+        binding.rvListStory.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter {
+                adapter.retry()
+            }
+        )
 
         showRecyclerView()
         binding.swipeRefreshLayout.setOnRefreshListener {
@@ -60,8 +66,12 @@ class ListFragment : Fragment() {
             return
         }
         try {
-            viewModel.listStory().observe(viewLifecycleOwner) { story ->
+//            viewModel.listStory().observe(viewLifecycleOwner) { story ->
+//                setListStory(story)
+//            }
+            viewModel.listStory.observe(viewLifecycleOwner) { story ->
                 setListStory(story)
+
             }
         } catch (e: SocketTimeoutException) {
             Toast.makeText(requireContext(), getString(R.string.server_timeout), Toast.LENGTH_SHORT)
@@ -72,9 +82,9 @@ class ListFragment : Fragment() {
                 .show()
         }
     }
-    private fun setListStory(listStory: List<ListStoryItem>) {
-        adapter.submitList(listStory)
-
+    private fun setListStory(listStory: PagingData<ListStoryItem>) {
+//        adapter.submitList(listStory)
+        adapter.submitData(lifecycle, listStory)
 
         adapter.setOnItemClickCallback(object : ListStoryAdapter.OnItemClickCallback {
             override fun onItemClicked(data: ListStoryItem) {
