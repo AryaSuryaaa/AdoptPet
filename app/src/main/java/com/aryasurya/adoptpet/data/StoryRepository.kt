@@ -47,7 +47,7 @@ fun listStory(): LiveData<PagingData<ListStoryItem>> {
             config = PagingConfig(
                 pageSize = 5
             ),
-            remoteMediator = StoryRemoteMediator(storyDatabase, apiService),
+            remoteMediator = StoryRemoteMediator(storyDatabase, userPreference),
             pagingSourceFactory = {
 //                StoryPagingSource(userPreference)
                 storyDatabase.storyDao().getAllStory()
