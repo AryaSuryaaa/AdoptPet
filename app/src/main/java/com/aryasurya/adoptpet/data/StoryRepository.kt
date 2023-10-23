@@ -21,6 +21,7 @@ class StoryRepository private constructor(
         emit(emptyList())
         val token = userPreference.getToken()
         val apiService = ApiConfig.getApiService(token.toString())
+
         try {
             val response = apiService.getStories()
             val stories = response.listStory
