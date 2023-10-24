@@ -9,6 +9,7 @@ import com.aryasurya.adoptpet.di.Injection
 import com.aryasurya.adoptpet.ui.account.AccountViewModel
 import com.aryasurya.adoptpet.ui.addpost.AddPostViewModel
 import com.aryasurya.adoptpet.ui.list.ListStoryViewModel
+import com.aryasurya.adoptpet.ui.locationstory.MapsViewModel
 import com.aryasurya.adoptpet.ui.login.LoginViewModel
 import com.aryasurya.adoptpet.ui.main.MainViewModel
 import com.aryasurya.adoptpet.ui.register.RegisterViewModel
@@ -37,6 +38,9 @@ class ViewModelFactory(
             }
             modelClass.isAssignableFrom(AddPostViewModel::class.java) -> {
                 AddPostViewModel(storyRepository) as T
+            }
+            modelClass.isAssignableFrom(MapsViewModel::class.java) -> {
+                MapsViewModel(storyRepository) as T
             }
             else -> throw IllegalArgumentException("Unknown ViewModel Class: " + modelClass.name)
         }

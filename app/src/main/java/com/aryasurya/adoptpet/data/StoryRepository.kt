@@ -13,6 +13,7 @@ import com.aryasurya.adoptpet.data.pref.UserPreference
 import com.aryasurya.adoptpet.data.remote.response.FileUploadResponse
 import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.data.remote.response.Story
+import com.aryasurya.adoptpet.data.remote.retrofit.ApiConfig
 import com.aryasurya.adoptpet.data.remote.retrofit.ApiService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -24,25 +25,20 @@ class StoryRepository private constructor(
     private val apiService: ApiService ,
     private val userPreference: UserPreference ,
 ) {
-//    fun listStory(): LiveData<List<ListStoryItem>> = liveData {
-//        emit(emptyList())
-//        val token = userPreference.getToken()
-//        val apiService = ApiConfig.getApiService(token.toString())
-//
-//        try {
-//            val response = apiService.getStories(1, 5)
-//            val stories = response.listStory
-//            if (!response.error) {
-//                emit(stories)
-//            } else {
-//                emit(emptyList())
-//            }
-//        } catch (e: Exception) {
-//            emit(emptyList())
-//        }
-//    }
-@OptIn(ExperimentalPagingApi::class)
-fun listStory(): LiveData<PagingData<ListStoryItem>> {
+
+    fun getListMap(): LiveData<Result<List<ListStoryItem>>> = liveData {
+        emit(Result.Loading)
+        try {
+            val response = apiService.getStoriesWithLocation()
+            val result = response.listStory
+
+            emit(Result.Success(result))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message ?: "An error occurred"))
+        }
+    }
+    @OptIn(ExperimentalPagingApi::class)
+    fun listStory(): LiveData<PagingData<ListStoryItem>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 5
