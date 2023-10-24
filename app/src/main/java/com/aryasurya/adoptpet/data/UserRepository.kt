@@ -1,22 +1,15 @@
 package com.aryasurya.adoptpet.data
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.liveData
 import com.aryasurya.adoptpet.data.pref.UserModel
 import com.aryasurya.adoptpet.data.pref.UserPreference
 import com.aryasurya.adoptpet.data.remote.response.CreateUserResponse
 import com.aryasurya.adoptpet.data.remote.response.ErrorResponse
-import com.aryasurya.adoptpet.data.remote.response.FileUploadResponse
-import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.data.remote.response.LoginResponse
-import com.aryasurya.adoptpet.data.remote.response.Story
 import com.aryasurya.adoptpet.data.remote.retrofit.ApiService
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import retrofit2.HttpException
 
 class UserRepository private constructor(

@@ -1,28 +1,22 @@
 package com.aryasurya.adoptpet.ui.list
 
-import android.content.Context
 import android.content.Intent
-import android.content.res.Resources
-import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aryasurya.adoptpet.R
-import com.aryasurya.adoptpet.data.Result
 import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.databinding.FragmentListBinding
 import com.aryasurya.adoptpet.helper.isInternetAvailable
 import com.aryasurya.adoptpet.ui.ViewModelFactory
 import com.aryasurya.adoptpet.ui.adapter.LoadingStateAdapter
 import com.aryasurya.adoptpet.ui.detailpost.DetailPostActivity
-import com.aryasurya.adoptpet.ui.login.LoginActivity
 import java.net.SocketTimeoutException
 
 class ListFragment : Fragment() {

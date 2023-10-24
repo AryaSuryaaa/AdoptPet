@@ -113,7 +113,7 @@ class MapsFragment : Fragment() {
                 android.Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            mMap?.isMyLocationEnabled = true
+            mMap.isMyLocationEnabled = true
 
             fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
                 location?.let {

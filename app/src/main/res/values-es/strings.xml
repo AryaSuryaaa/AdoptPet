@@ -43,7 +43,6 @@
     <string name="description">descripción</string>
     <string name="post">Correo</string>
     <string name="no_data_found">No data found</string>
-    <string name="uploadedText">%1$s</string>
     <string name="are_you_sure_you_want_to_log_out">¿Está seguro de que desea cerrar sesión?</string>
     <string name="yes">Sí</string>
     <string name="no">No</string>

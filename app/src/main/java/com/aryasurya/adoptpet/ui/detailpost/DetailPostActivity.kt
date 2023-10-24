@@ -1,7 +1,5 @@
 package com.aryasurya.adoptpet.ui.detailpost
 
-import android.content.Context
-import android.net.ConnectivityManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast

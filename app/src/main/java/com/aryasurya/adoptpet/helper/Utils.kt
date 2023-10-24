@@ -6,7 +6,6 @@ import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.net.ConnectivityManager
 import android.net.Uri
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.exifinterface.media.ExifInterface
 import java.io.ByteArrayOutputStream
 import java.io.File

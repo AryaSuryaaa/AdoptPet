@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.aryasurya.adoptpet.data.Result
 import com.aryasurya.adoptpet.data.UserRepository
 import com.aryasurya.adoptpet.data.pref.UserModel
-import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.data.remote.response.LoginResponse
 import kotlinx.coroutines.launch
 

@@ -3,18 +3,13 @@ package com.aryasurya.adoptpet.ui.list
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.aryasurya.adoptpet.data.Result
 import com.aryasurya.adoptpet.data.StoryRepository
-import com.aryasurya.adoptpet.data.UserRepository
-import com.aryasurya.adoptpet.data.pref.UserModel
 import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.data.remote.response.Story
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class ListStoryViewModel(private val repository: StoryRepository) : ViewModel() {

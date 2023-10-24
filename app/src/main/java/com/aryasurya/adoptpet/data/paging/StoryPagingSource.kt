@@ -5,7 +5,6 @@ import androidx.paging.PagingState
 import com.aryasurya.adoptpet.data.pref.UserPreference
 import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.data.remote.retrofit.ApiConfig
-import com.aryasurya.adoptpet.data.remote.retrofit.ApiService
 import java.lang.Exception
 
 class StoryPagingSource(private val userPreference: UserPreference) : PagingSource<Int , ListStoryItem>() {

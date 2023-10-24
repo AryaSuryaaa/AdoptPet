@@ -42,7 +42,6 @@
     <string name="description">description</string>
     <string name="post">Post</string>
     <string name="no_data_found">No data found</string>
-    <string name="uploadedText">%1$s</string>
     <string name="are_you_sure_you_want_to_log_out">Are you sure you want to log out?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>

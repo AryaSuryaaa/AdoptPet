@@ -43,7 +43,6 @@
     <string name="description">deskripsi</string>
     <string name="post">Post</string>
     <string name="no_data_found">Tidak ada data ditemukan</string>
-    <string name="uploadedText">%1$s</string>
     <string name="are_you_sure_you_want_to_log_out">Apakah Anda yakin ingin logout?</string>
     <string name="yes">Ya</string>
     <string name="no">Tidak</string>
