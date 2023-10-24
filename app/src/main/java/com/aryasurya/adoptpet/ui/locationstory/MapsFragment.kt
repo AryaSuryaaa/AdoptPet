@@ -18,6 +18,7 @@ import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.ui.ViewModelFactory
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.CameraUpdateFactory
 
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -98,6 +99,16 @@ class MapsFragment : Fragment() {
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             mMap?.isMyLocationEnabled = true
+
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                location?.let {
+                    val lat = it.latitude
+                    val lon = it.longitude
+
+                    val myLocation = LatLng(lat, lon)
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 15f))
+                }
+            }
 
         } else {
             requestPermissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
