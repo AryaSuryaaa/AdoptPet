@@ -84,7 +84,7 @@ class StoryRepository private constructor(
     fun myStory(name: String): LiveData<Result<List<ListStoryItem>>> = liveData {
         emit(Result.Loading)
         try {
-            val response = apiService.getStories(1, 5)
+            val response = apiService.getStories()
             val result = response.listStory
 
             val filterName = result.filter { story ->
