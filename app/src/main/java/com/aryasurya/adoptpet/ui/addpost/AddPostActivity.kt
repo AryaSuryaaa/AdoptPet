@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.location.Location
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -25,6 +26,8 @@ import com.aryasurya.adoptpet.ui.ViewModelFactory
 import com.aryasurya.adoptpet.ui.camera.CameraActivity
 import com.aryasurya.adoptpet.ui.camera.CameraActivity.Companion.CAMERAX_RESULT
 import com.aryasurya.adoptpet.ui.main.MainActivity
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -36,6 +39,9 @@ class AddPostActivity : AppCompatActivity() {
     private val viewModel by viewModels<AddPostViewModel> {
         ViewModelFactory.getInstance(this)
     }
+
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
 
     // CEK PERMISSION IMAGE
     private var currentImageUri: Uri? = null
@@ -109,10 +115,20 @@ class AddPostActivity : AppCompatActivity() {
             selectImage()
         }
 
-        binding.btnPost.setOnClickListener { uploadImage() }
+        val swLocation = binding.swAddLocation
+
+        binding.btnPost.setOnClickListener {
+            if (swLocation.isChecked) {
+                getMyLocation { lat, lon ->
+                    uploadStoryWithLocation(lat, lon)
+                }
+            } else {
+                uploadStory()
+            }
+        }
     }
 
-    private fun uploadImage() {
+    private fun uploadStory() {
         currentImageUri?.let { uri ->
             val imageFile = uriToFile(uri, this).reduceFileImage()
             val description = binding.descriptionInput.text.toString()
@@ -124,6 +140,45 @@ class AddPostActivity : AppCompatActivity() {
             )
 
             viewModel.postStory(multipartBody, requestBody)
+        }
+    }
+
+    private fun uploadStoryWithLocation(lat: Double? , lon: Double?) {
+        currentImageUri?.let { uri ->
+            val imageFile = uriToFile(uri, this).reduceFileImage()
+            val description = binding.descriptionInput.text.toString()
+
+            val requestBody = description.toRequestBody("text/plain".toMediaType())
+            val resquestImageFile = imageFile.asRequestBody("image/jpeg".toMediaType())
+            val multipartBody = MultipartBody.Part.createFormData(
+                "photo", imageFile.name, resquestImageFile
+            )
+
+            if (lat != null && lon != null) {
+                viewModel.postStoryWithLocation(multipartBody, requestBody, lat, lon)
+            }
+        }
+    }
+
+    private fun getMyLocation(callback: (Double?, Double?) -> Unit) {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        if (ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                location?.let {
+                    val lat = it.latitude
+                    val lon = it.longitude
+                    callback(lat, lon)
+                }
+            }
+
+        } else {
+            requestPermissLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         }
     }
 

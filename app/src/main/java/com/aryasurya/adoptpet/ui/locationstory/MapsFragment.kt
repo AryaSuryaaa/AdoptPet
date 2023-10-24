@@ -1,6 +1,7 @@
 package com.aryasurya.adoptpet.ui.locationstory
 
 import android.content.pm.PackageManager
+import android.location.Location
 import androidx.fragment.app.Fragment
 
 import android.os.Bundle
@@ -15,6 +16,8 @@ import com.aryasurya.adoptpet.R
 import com.aryasurya.adoptpet.data.Result
 import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.ui.ViewModelFactory
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -28,6 +31,8 @@ class MapsFragment : Fragment() {
     private val viewModel by viewModels<MapsViewModel> {
         ViewModelFactory.getInstance(requireContext())
     }
+
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
 
 
     private val requestPermissionLauncher = registerForActivityResult(
@@ -85,12 +90,15 @@ class MapsFragment : Fragment() {
     }
 
     private fun getMyLocation() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+
         if (ContextCompat.checkSelfPermission(
                 requireContext(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             mMap?.isMyLocationEnabled = true
+
         } else {
             requestPermissionLauncher.launch(android.Manifest.permission.ACCESS_FINE_LOCATION)
         }
@@ -98,7 +106,7 @@ class MapsFragment : Fragment() {
 //
     private fun setStoryMarker(data: ListStoryItem) {
         if (data.lat != null && data.lon != null) {
-            val latLng = LatLng(data.lat, data.lon)
+            val latLng = LatLng(data.lat.toDouble() , data.lon.toDouble())
             mMap.addMarker(
                 MarkerOptions()
                     .position(latLng)

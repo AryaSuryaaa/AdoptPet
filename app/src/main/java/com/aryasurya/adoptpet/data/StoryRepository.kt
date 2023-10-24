@@ -13,7 +13,6 @@ import com.aryasurya.adoptpet.data.pref.UserPreference
 import com.aryasurya.adoptpet.data.remote.response.FileUploadResponse
 import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.data.remote.response.Story
-import com.aryasurya.adoptpet.data.remote.retrofit.ApiConfig
 import com.aryasurya.adoptpet.data.remote.retrofit.ApiService
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -66,6 +65,16 @@ class StoryRepository private constructor(
         emit(Result.Loading)
         try {
             val response = apiService.postStory(multipartBody, description)
+            emit(Result.Success(response))
+        } catch (e: Exception) {
+            emit(Result.Error(e.message ?: "An error occurred"))
+        }
+    }
+
+    suspend fun postStoryWithLocation(multipartBody: MultipartBody.Part , description: RequestBody , lat: Double , lon: Double): Flow<Result<FileUploadResponse>> = flow {
+        emit(Result.Loading)
+        try {
+            val response = apiService.postStory(multipartBody, description, lat, lon)
             emit(Result.Success(response))
         } catch (e: Exception) {
             emit(Result.Error(e.message ?: "An error occurred"))

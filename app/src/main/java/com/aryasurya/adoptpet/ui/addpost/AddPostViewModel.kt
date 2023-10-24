@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aryasurya.adoptpet.data.Result
 import com.aryasurya.adoptpet.data.StoryRepository
-import com.aryasurya.adoptpet.data.UserRepository
 import com.aryasurya.adoptpet.data.remote.response.FileUploadResponse
 import kotlinx.coroutines.launch
 import okhttp3.MultipartBody
@@ -20,6 +19,14 @@ class AddPostViewModel(private val repository: StoryRepository): ViewModel() {
     fun postStory(multipartBody: MultipartBody.Part, description: RequestBody) {
         viewModelScope.launch {
             repository.postStory(multipartBody, description).collect { result ->
+                _postResult.value = result
+            }
+        }
+    }
+
+    fun postStoryWithLocation(multipartBody: MultipartBody.Part, description: RequestBody, lat: Double, lon: Double) {
+        viewModelScope.launch {
+            repository.postStoryWithLocation(multipartBody, description, lat, lon).collect { result ->
                 _postResult.value = result
             }
         }

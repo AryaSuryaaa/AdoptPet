@@ -52,6 +52,15 @@ interface ApiService {
         @Part("description") description: RequestBody ,
     ): FileUploadResponse
 
+    @Multipart
+    @POST("stories")
+    suspend fun postStory(
+        @Part file: MultipartBody.Part ,
+        @Part("description") description: RequestBody ,
+        @Part("lat") lat: Double ,
+        @Part("lon") lon: Double ,
+    ): FileUploadResponse
+
     @GET("stories/{id}")
     suspend fun getDetailStory(
         @Path("id") id: String
