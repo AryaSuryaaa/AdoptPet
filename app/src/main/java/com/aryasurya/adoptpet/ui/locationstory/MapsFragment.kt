@@ -1,6 +1,7 @@
 package com.aryasurya.adoptpet.ui.locationstory
 
 import android.content.pm.PackageManager
+import android.content.res.Resources
 import android.location.Location
 import androidx.fragment.app.Fragment
 
@@ -24,6 +25,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.android.gms.maps.model.MarkerOptions
 
 class MapsFragment : Fragment() {
@@ -55,6 +57,7 @@ class MapsFragment : Fragment() {
 
 
         getMyLocation()
+        setMapStyle()
     }
 
     override fun onCreateView(
@@ -87,6 +90,18 @@ class MapsFragment : Fragment() {
                 is Result.Error -> {}
                 else -> {}
             }
+        }
+    }
+
+    private fun setMapStyle() {
+        try {
+            val success =
+                mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(requireContext(), R.raw.map_style))
+            if (!success) {
+                Log.e(TAG, "Style parsing failed.")
+            }
+        } catch (exception: Resources.NotFoundException) {
+            Log.e(TAG, "Can't find style. Error: ", exception)
         }
     }
 
@@ -125,5 +140,9 @@ class MapsFragment : Fragment() {
                     .snippet(data.description)
             )
         }
+    }
+
+    companion object {
+        private const val TAG = "MapsFragment"
     }
 }
