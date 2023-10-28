@@ -13,8 +13,10 @@ import com.aryasurya.adoptpet.data.pref.UserPreference
 import com.aryasurya.adoptpet.data.remote.response.FileUploadResponse
 import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.data.remote.response.Story
+import com.aryasurya.adoptpet.data.remote.retrofit.ApiConfig
 import com.aryasurya.adoptpet.data.remote.retrofit.ApiService
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -52,6 +54,8 @@ class StoryRepository private constructor(
 
     suspend fun detailStory(id: String): Flow<Result<Story>> = flow {
         emit(Result.Loading)
+        val token = userPreference.getSession().first().token
+        val apiService = ApiConfig.getApiService(token)
         try {
             val response = apiService.getDetailStory(id)
             val story = response.story
@@ -63,6 +67,8 @@ class StoryRepository private constructor(
 
     suspend fun postStory(multipartBody: MultipartBody.Part, description: RequestBody): Flow<Result<FileUploadResponse>> = flow {
         emit(Result.Loading)
+        val token = userPreference.getSession().first().token
+        val apiService = ApiConfig.getApiService(token)
         try {
             val response = apiService.postStory(multipartBody, description)
             emit(Result.Success(response))
@@ -73,6 +79,8 @@ class StoryRepository private constructor(
 
     suspend fun postStoryWithLocation(multipartBody: MultipartBody.Part , description: RequestBody , lat: Double , lon: Double): Flow<Result<FileUploadResponse>> = flow {
         emit(Result.Loading)
+        val token = userPreference.getSession().first().token
+        val apiService = ApiConfig.getApiService(token)
         try {
             val response = apiService.postStory(multipartBody, description, lat, lon)
             emit(Result.Success(response))

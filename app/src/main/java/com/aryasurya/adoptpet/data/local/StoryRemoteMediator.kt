@@ -10,6 +10,7 @@ import com.aryasurya.adoptpet.data.local.room.RemoteKeys
 import com.aryasurya.adoptpet.data.pref.UserPreference
 import com.aryasurya.adoptpet.data.remote.response.ListStoryItem
 import com.aryasurya.adoptpet.data.remote.retrofit.ApiConfig
+import kotlinx.coroutines.flow.first
 import java.lang.Exception
 
 @OptIn(ExperimentalPagingApi::class)
@@ -41,8 +42,8 @@ class StoryRemoteMediator(
             }
         }
 
-        val token = userPreference.getToken()
-        val apiService = ApiConfig.getApiService(token.toString())
+        val token = userPreference.getSession().first().token
+        val apiService = ApiConfig.getApiService(token)
         try {
             val responseData = apiService.getStories(page, state.config.pageSize)
 
